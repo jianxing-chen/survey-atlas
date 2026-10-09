@@ -34,6 +34,14 @@ const COLS = [
 ];
 const statusMap = {done:['已完成','st-done'], run:['进行中','st-run'], next:['即将/巡天前','st-next']};
 
+/* ---- 导航尺排序：波段按真实频谱排列（波长长→短），方法类单独一行 ---- */
+const SPECTRUM_ORDER = ['radio','ir','img','uv','xray'];
+const CROSSCUT_ORDER = ['xspec','gspec','time','astro'];
+const SPECTRUM_EN = {radio:'RADIO', ir:'INFRARED', img:'OPTICAL', uv:'ULTRAVIOLET', xray:'X-RAY'};
+/* 夜空底上使用的亮度变体（纸上仍用 REG 的深色） */
+const LUM = {img:'#6FA8E8', ir:'#E8964E', uv:'#AC92F2', xspec:'#4FC99A', gspec:'#EF6D9D',
+             radio:'#E86A70', xray:'#8FA9CB', time:'#E5BC55', astro:'#54C8DE'};
+
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 function buildHead(){
@@ -63,7 +71,7 @@ function rowHTML(s){
     <td class="mono">${esc(s.area)}</td>
     <td class="mono">${esc(s.bands)}</td>
     <td class="mono">${esc(s.depth)}</td>
-    <td class="mono">${esc(s.spec)}</td>
+    <td class="mono">${s.spec?esc(s.spec):'<span class="na">—</span>'}</td>
     <td class="mono">${esc(s.nsrc)}</td>
     <td><span class="tag ${st[1]}">${st[0]}</span></td>
     <td><a href="${first[1]}" target="_blank" rel="noopener">数据 ↗</a></td>
@@ -71,7 +79,7 @@ function rowHTML(s){
 }
 
 /* ---- 文本列排序器（数值列用 COLS 的 n 键） ---- */
-const REG_ORDER = Object.keys(REG);
+const REG_ORDER = [...SPECTRUM_ORDER, ...CROSSCUT_ORDER];
 const ST_ORD = {next:0, run:1, done:2};
 const yearOf = s => { const m = String(s.dr+' '+s.drDate).match(/(19|20)\d{2}/); return m ? +m[0] : 0 };
 const TEXT_SORT = {
@@ -127,7 +135,7 @@ function buildChips(){
   };
   bar.querySelectorAll('.chip').forEach(e=>e.remove());
   mk('all','全部',null,SURVEYS.length);
-  Object.entries(REG).forEach(([k,v])=>mk(k,v.label,v.hex,counts[k]||0));
+  [...SPECTRUM_ORDER,...CROSSCUT_ORDER].forEach(k=>mk(k,REG[k].label,REG[k].hex,counts[k]||0));
   $('#q').addEventListener('input',e=>{state.q=e.target.value.trim();renderRows()});
 }
 
@@ -150,7 +158,7 @@ function drawerHTML(s){
     ['源数/规模',`<span class="mono">${esc(s.nsrc)}</span>`],
     ...(s.spec?[['光谱 R',`<span class="mono">${esc(s.spec)}</span>`]]:[]),
   ].map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
-  const sec=(t,b)=>b?`<div class="dw-sec"><h5>${t}</h5>${b}</div>`:'';
+  const sec=(t,en,b)=>b?`<div class="dw-sec"><h5>${t}<span>${en}</span></h5>${b}</div>`:'';
   const d=s.d||{};
   const links=s.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')
     +(s.paper?`<a class="paper" href="${s.paper[1]}" target="_blank" rel="noopener">📄 ${esc(s.paper[0])}</a>`:'');
@@ -163,17 +171,18 @@ function drawerHTML(s){
       </div>
       <button class="dw-close" id="dwClose">✕ 关闭（Esc）</button>
     </div>
+    <div class="dw-plateid">Archive Plate · ${esc(s.id.toUpperCase())}</div>
     <div class="dw-head">
       <h2 id="dwName">${esc(s.name)}</h2>
       <p class="dw-en">${esc(s.en)}</p>
-      <div class="dw-tags">${tags}</div>
+      <div class="dw-tags">${tags}<span class="stamp ${st[1]}">${st[0]}</span></div>
     </div>
     <dl class="kv">${kv}</dl>
-    ${sec('发布了什么数据', d.p?`<p>${esc(d.p)}</p>`:'')}
-    ${sec('数据形态与规模', d.v?`<p>${esc(d.v)}</p>`:'')}
-    ${sec('观测节奏 / Cadence', d.c?`<p>${esc(d.c)}</p>`:'')}
-    ${sec('怎么获取', d.a?`<p>${esc(d.a)}</p>`:'')}
-    ${sec('观测了什么 · 适合做什么', `<p>${esc(s.sci)}</p>`)}
+    ${sec('发布了什么数据','RELEASED', d.p?`<p>${esc(d.p)}</p>`:'')}
+    ${sec('数据形态与规模','FORMAT & SCALE', d.v?`<p>${esc(d.v)}</p>`:'')}
+    ${sec('观测节奏','CADENCE', d.c?`<p>${esc(d.c)}</p>`:'')}
+    ${sec('怎么获取','ACCESS', d.a?`<p>${esc(d.a)}</p>`:'')}
+    ${sec('观测了什么 · 适合做什么','SCIENCE FIT', `<p>${esc(s.sci)}</p>`)}
     ${s.note?`<div class="dw-note">${esc(s.note)}</div>`:''}
     <div class="dw-links">${links}</div>`;
 }
@@ -216,12 +225,21 @@ function initDrawer(){
   window.addEventListener('hashchange',tryHash);
 }
 
-/* ---- 日历 ---- */
+/* ---- 日历：双轨（已发布 / 未来 18 个月） ---- */
 function buildTimeline(){
-  $('#tlGrid').innerHTML = TIMELINE.map(t=>
-    `<div class="tl-card ${t.kind==='future'?'future':''}" style="--bar:var(${t.c})">
-      <div class="d">${esc(t.d)}</div><div class="t">${esc(t.t)}</div><div class="n">${esc(t.n)}</div>
-    </div>`).join('');
+  const past=TIMELINE.filter(t=>t.kind!=='future'), fut=TIMELINE.filter(t=>t.kind==='future');
+  const row=t=>`<div class="tl-row"><span class="d">${esc(t.d)}</span><i style="background:${LUMVAR[t.c]||'#8FA9CB'}"></i>
+    <div class="tx"><b>${esc(t.t)}</b><span>${esc(t.n)}</span></div></div>`;
+  const rowsPerCol=Math.ceil(past.length/2);
+  $('#tlGrid').innerHTML=`
+    <div class="tl-past">
+      <div class="tl-cap">已发布 <b>${past.length}</b><span>2024 → 现在</span></div>
+      <div class="tl-rows cols2" style="grid-template-rows:repeat(${rowsPerCol},auto)">${past.map(row).join('')}</div>
+    </div>
+    <aside class="tl-next">
+      <div class="tl-cap fu">未来 18 个月 <b>${fut.length}</b></div>
+      <div class="tl-rows">${fut.map(row).join('')}</div>
+    </aside>`;
 }
 
 /* ---- 选型指南 ---- */
@@ -314,7 +332,7 @@ function scatterSVG({title,sub,data,xKey,yKey,xLog,yIsLog10,xLabel,yLabel,fmtX,f
   const Y=v=>H-mb-((v-y0)/(y1-y0))*(H-mt-mb);
   // x 刻度
   let xticks=[];
-  if(xLog){const raw=[100,300,1000,3000,10000,30000,41253];xticks=raw.filter(v=>v>=x0&&v<=x1)}
+  if(xLog){const raw=[100,300,1000,3000,10000,40000];xticks=raw.filter(v=>v>=x0&&v<=x1)}
   else {for(let i=0;i<=5;i++)xticks.push(x0+(x1-x0)*i/5)}
   const yticks=[];for(let i=0;i<=5;i++)yticks.push(y0+(y1-y0)*i/5);
   // ---- 标签贪心避让（压已放标签 > 出绘图区 > 压其他数据点）----
@@ -358,26 +376,40 @@ function scatterSVG({title,sub,data,xKey,yKey,xLog,yIsLog10,xLabel,yLabel,fmtX,f
   </svg>`;
 }
 
-/* ---- hero 类别索引条（点击即筛选并跳到总表） ---- */
-function buildIndex(){
+/* ---- hero 频谱导航尺（波段按频谱排列，点击筛选并跳到总表） ---- */
+const LUMVAR = {'--c-img':LUM.img,'--c-ir':LUM.ir,'--c-uv':LUM.uv,'--c-xspec':LUM.xspec,'--c-gspec':LUM.gspec,
+                '--c-radio':LUM.radio,'--c-xray':LUM.xray,'--c-time':LUM.time,'--c-astro':LUM.astro};
+function buildRuler(){
   const counts={};
   SURVEYS.forEach(s=>s.reg.forEach(r=>counts[r]=(counts[r]||0)+1));
-  const seg=[['all','全部巡天','#9aa3af',SURVEYS.length]]
-    .concat(Object.entries(REG).map(([k,v])=>[k,v.label,v.hex,counts[k]||0]));
-  $('#catIndex').innerHTML=seg.map(([k,label,c,n])=>
-    `<button class="cseg" data-k="${k}" style="--seg:${c}" aria-label="筛选：${label}（${n}）"><span class="cn"><i></i>${label}</span><b>${n}</b></button>`).join('');
-  $('#catIndex').querySelectorAll('.cseg').forEach(b=>b.onclick=()=>{
-    state.reg=b.dataset.k;buildChips();renderRows();syncIndex();
+  $('#rulerBands').innerHTML = SPECTRUM_ORDER.map(k=>{
+    const v=REG[k];
+    return `<button class="rseg" data-k="${k}" style="--seg:${LUM[k]}" aria-pressed="false" aria-label="筛选：${v.label}（${counts[k]||0}）">
+      <span class="rt"><span class="rn">${v.label}</span><b>${counts[k]||0}</b></span>
+      <span class="re">${SPECTRUM_EN[k]}</span></button>`}).join('');
+  const mkx=(k,label,c,n)=>`<button class="xseg${state.reg===k?' on':''}" data-k="${k}" aria-pressed="${state.reg===k}">
+    ${c?`<i style="background:${c}"></i>`:''}${label}<span>${n}</span></button>`;
+  $('#rulerX').innerHTML = mkx('all','全部',null,SURVEYS.length)
+    + CROSSCUT_ORDER.map(k=>mkx(k,REG[k].label,REG[k].hex,counts[k]||0)).join('');
+  document.querySelectorAll('#rulerBands .rseg, #rulerX .xseg').forEach(b=>b.onclick=()=>{
+    state.reg=b.dataset.k; buildChips(); renderRows(); syncIndex();
     document.getElementById('table').scrollIntoView();
   });
   syncIndex();
 }
 function syncIndex(){
-  document.querySelectorAll('.cseg').forEach(b=>b.classList.toggle('on',b.dataset.k===state.reg));
+  document.querySelectorAll('#rulerBands .rseg').forEach(b=>b.setAttribute('aria-pressed', b.dataset.k===state.reg));
+  document.querySelectorAll('#rulerX .xseg').forEach(b=>b.classList.toggle('on',b.dataset.k===state.reg));
 }
 
 /* ---- init ---- */
 $('#stN').textContent = SURVEYS.length;
 $('#heroN').textContent = SURVEYS.length;
-buildChips(); buildHead(); renderRows(); buildTimeline(); buildGuide(); buildSources(); buildIndex(); initDrawer();
+$('#stLinks').textContent = SURVEYS.reduce((a,s)=>a+s.links.length,0);
+const _next = TIMELINE.find(t=>t.kind==='future');
+if(_next){
+  $('#stNextD').textContent = _next.d.replace(/（.*?）/,'');
+  $('#stNextT').textContent = '下一站 · '+_next.t.replace(/（.*?）/,'');
+}
+buildChips(); buildHead(); renderRows(); buildTimeline(); buildGuide(); buildSources(); buildRuler(); initDrawer();
 $('#chartImg').innerHTML=chartImaging(); $('#chartSpec').innerHTML=chartSpec();
