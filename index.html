@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Atlas · 巡天数据查询系统</title>
+<meta name="description" content="主流天文巡天数据档案查询：测光/光谱/波段/深度/天区/数据产品/获取方式/观测节奏，59 个巡天逐条核实，更新至 2026-10。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Survey Atlas · 巡天数据查询系统">
+<meta property="og:description" content="59 个天文巡天的数据档案：发布了什么数据、什么形态、多大、什么节奏观测、去哪里下载。">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap topbar">
+    <div class="brand">Survey Atlas<span class="en">巡天数据查询系统</span></div>
+    <nav class="toc">
+      <a href="#timeline">发布日历</a>
+      <a href="#table">对比总表</a>
+      <a href="#charts">面积×深度</a>
+      <a href="#guide">选型指南</a>
+      <a href="#sources">来源</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Astronomical Survey Data Handbook</div>
+    <h1 class="title"><b id="heroN">59</b> 个巡天数据档案，<br>点开一行，看清它发布了什么数据</h1>
+    <p class="lede">每个巡天一份档案：测光还是光谱、覆盖多大天区、能测到多暗、以什么节奏观测、发布了哪些数据产品、数据长什么样、去哪里下载。点击表格任意行打开档案抽屉。</p>
+    <div class="stats">
+      <div class="stat"><b id="stN">59</b><span>巡天项目</span></div>
+      <div class="stat"><b>9</b><span>波段/类型域</span></div>
+      <div class="stat"><b>2026-10-08</b><span>信息核实日期</span></div>
+      <div class="stat"><b>DR4 / DR1-F / DP2</b><span>即将到来</span></div>
+    </div>
+    <div class="catindex" id="catIndex" aria-label="按类型浏览巡天"></div>
+    <div class="update-badge"><i></i>关键时效信息已逐条核实：Gaia DR4 预计 2026-12；DESI 公开数据为 DR1；Rubin DP2 已发布</div>
+  </div>
+
+  <section id="timeline">
+    <div class="sec-head"><span class="tick"></span><h2>发布日历</h2></div>
+    <p class="sec-sub">近两年重要发布与未来 18 个月的关键节点。绿色为尚未发生、值得写入观测/申请计划的日期。</p>
+    <div class="tl-grid" id="tlGrid"></div>
+  </section>
+
+  <section id="table">
+    <div class="sec-head"><span class="tick"></span><h2>对比总表</h2></div>
+    <p class="sec-sub">点击表头排序，点击色块或上方索引条筛选类型，搜索框支持中英文（名称/望远镜/波段），按 <kbd>/</kbd> 快速聚焦。点击任意一行打开该巡天的数据档案。</p>
+    <div class="filterbar" id="filterbar">
+      <div class="searchbox">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa7c7" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="搜索：DESI / 红外 / astrometry …（按 / 聚焦）">
+      </div>
+    </div>
+    <div class="tablebox">
+      <table class="survey" id="surveyTable">
+        <thead><tr id="theadRow"></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="count-row" id="countRow"></div>
+  </section>
+
+  <section id="charts">
+    <div class="sec-head"><span class="tick"></span><h2>面积 × 深度图</h2></div>
+    <p class="sec-sub">横轴为天区面积（对数），纵轴为代表波段的极限星等（成像）或光谱数量（光谱巡天）。右上 = 又深又广 = 稀缺资源。</p>
+    <div class="charts">
+      <div class="chartcard" id="chartImg"></div>
+      <div class="chartcard" id="chartSpec"></div>
+    </div>
+  </section>
+
+  <section id="guide">
+    <div class="sec-head"><span class="tick"></span><h2>选型指南</h2></div>
+    <p class="sec-sub">按科学问题反查数据。加 ⚠ 的项目为尚未发布/规划中的数据，选题时注意时间线。</p>
+    <div class="guidegrid" id="guideGrid"></div>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head"><span class="tick"></span><h2>来源与口径说明</h2></div>
+    <div class="disclaimer">
+      <b>口径提示</b>：表中深度数值混用 5σ / 10σ、点源 / 孔径测光等不同口径，均以各巡天官方文档为准；带 ≈ 为约值、带 ⚠ 为未能完全二次核实或依赖单一来源的数值。
+      Vega 与 AB 星等系统不同（2MASS/WISE 部分波段为 Vega）。天区面积为设计值或最新发布实际值，具体以官方 footprint 文件为准。
+      “光谱数”统计口径各巡天不同（独立目标 / 曝光次数），横向对比仅供量级参考。本页为人工整理，难免滞后，发布计划常变动，使用前请点击链接到官方页面复核。
+    </div>
+    <ul class="srclist" id="srcList"></ul>
+  </section>
+
+  <footer>
+    <span>Survey Atlas · 编制于 2026-10-08 · 供科研选题与数据检索参考</span>
+    <span>数据均来自各巡天官方发布渠道 · 详见上方来源列表</span>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dwName"></aside>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
