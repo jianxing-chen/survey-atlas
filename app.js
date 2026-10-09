@@ -274,7 +274,7 @@ function chartImaging(){
     {n:'Euclid', a:14000, d:24.5, c:REG.img.hex, band:'IE 宽场'},
     {n:'HSC', a:2200, d:26.6, c:REG.img.hex, band:'r Wide', lo:[-8,-6], anchor:'end'},
     {n:'Rubin', a:18000, d:27.5, c:REG.time.hex, band:'10yr 堆叠 r'},
-    {n:'Roman', a:4500, d:27.0, c:REG.ir.hex, band:'HLWAS NIR'},
+    {n:'Roman', a:2400, d:27.0, c:REG.ir.hex, band:'HLWAS'},
     {n:'DEVILS', a:4.5, d:27.2, c:REG.ir.hex, band:'Y 叠VIDEO', lo:[8,15]},
     {n:'COSMOS-Web', a:0.54, d:27.8, c:REG.ir.hex, band:'F277W', lo:[8,10]},
     {n:'UltraVISTA', a:1.8, d:25.3, c:REG.ir.hex, band:'Ks 超深'},

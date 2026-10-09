@@ -340,9 +340,9 @@ const SURVEYS = [
  note:'2025-07 起在 IRSA 每周滚动发布谱图像数据；“每个源都有光谱”是其与测光巡天的本质区别。'},
 
 {id:'roman', name:'Roman', en:'Nancy Grace Roman Space Telescope', reg:['ir','time','xspec'],
- d:{s:'NASA 2.4m 广视场旗舰 2026-09 发射，5 年主任务按核心社区巡天组织：高纬宽场 HLWAS（≈4,500 deg² 成像 + 无缝光谱，早期基线 2,000 deg²）、高纬时域（~19 deg²、数天节奏的超新星巡天）、银核时域 GBTDS（~2 deg²、标称 15 分钟节奏看微透镜，高节奏季 12 分钟）；各层设计由社区委员会定稿、可能微调。', p:'WFI 近红外图像 + 无缝光谱 + 微透镜时域', a:'MAST/IPAC(2027 首光后滚动开放)', c:'核心+社区巡天分层，5 年任务', v:'视场 0.28 deg²；HLWAS 规划 ≈4,500 deg²'},
+ d:{s:'NASA 2.4m 广视场旗舰 2026-09 发射。前五年主任务 = 社区定义的「核心社区巡天」Core Community Surveys（CCS）：由社区科学委员会（CSC）向全社区征集、投票定稿的三项巡天，旨在满足 Roman 顶层科学需求（暗能量/暗物质、系外行星）同时服务广泛天体物理。三项 CCS 是——① 高纬宽场 HLWAS：宽/中/深三层成像 + 无缝光谱（官方文档 ≈2,415 deg²，早期基线 2,000，含光谱分量的口径有 ~4,500）；② 高纬时域 HLTDS：~19 deg²、数天节奏的 Ia 型超新星巡天；③ 银核时域 GBTDS：~2 deg²、W146 波段标称 15 分钟（高节奏季 12 分钟）看微透镜系外行星。CCS 之外的时间通过一般提案（GI）向全社区开放。', p:'WFI 近红外图像 + 无缝光谱 + 微透镜时域', a:'MAST/IPAC(2027 首光后滚动开放)', c:'CCS 三巡天优先执行 + 社区 GI 提案，5 年主任务', v:'视场 0.28 deg²；CCS = HLWAS + HLTDS + GBTDS'},
  status:'next', facility:'Roman 2.4 m（宽视场 WFI 3 亿像素，0.28 deg²）', dr:'2026-09 已发射；首光图 ≈2027-01', drDate:'2026-09（发射）',
- area:'高纬宽场 HLWAS ≈4,500 deg²（早期基线 2,000）', areaN:4500,
+ area:'HLWAS（宽/中/深三层）≈2,415 deg²；含光谱分量口径 ~4,500 ⚠', areaN:2400,
  bands:'0.48–2.3 μm（F062–F213）+ prism/grism 无缝光谱（R≈75–650）',
  depth:'HLWAS 5σ ≈ 27 AB（近红外）⚠', depthN:27,
  resAng:'≈0.11″/像素；近 HST 像质', nsrc:'—', nN:0,
