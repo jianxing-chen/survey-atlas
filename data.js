@@ -25,7 +25,7 @@ const REG = {
 const SURVEYS = [
 /* ---------------- 光学成像 ---------------- */
 {id:'sdss', name:'SDSS', en:'Sloan Digital Sky Survey', reg:['img','xspec'],
- d:{p:'五带成像 + photo 测光星表(≈10 亿源) + 400 多万条光谱', a:'SkyServer(SQL/CasJobs)、SciServer、SAS 批量下载', c:'成像多次通过；光谱单次曝光', v:'星表 GB 级、光谱数百万条 FITS'},
+ d:{s:'斯隆基金会资助的专用巡天计划：2000–2008 年用 APO 2.5m 完成北天 14,555 deg² 五带成像（每带约 2 次 54s 曝光），同步以 640–1,000 光纤板打点星系/QSO 光谱；此后 BOSS→eBOSS→SDSS-V 四代接续至今二十余年，是现代数字巡天的原型。', p:'五带成像 + photo 测光星表(≈10 亿源) + 400 多万条光谱', a:'SkyServer(SQL/CasJobs)、SciServer、SAS 批量下载', c:'成像多次通过；光谱单次曝光', v:'星表 GB 级、光谱数百万条 FITS'},
  status:'done', facility:'Apache Point 2.5 m（新墨西哥）', dr:'DR17（成像终版）', drDate:'2021-12',
  area:'14,555 deg²（北天，|b|≳15°）', areaN:14555,
  bands:'u g r i z',
@@ -38,7 +38,7 @@ const SURVEYS = [
  note:'测光部分已定版；光谱持续在 SDSS-V 中更新（见 SDSS-V 卡）。u 波段浅、南天覆盖少，南天用 DES/Legacy/SkyMapper 补。'},
 
 {id:'ps1', name:'Pan-STARRS PS1', en:'Pan-STARRS1 3π Survey', reg:['img','time'],
- d:{p:'grizy 叠加图像 + 星表(3π ≈30 亿检测)', a:'MAST PS1 切图/API、VizieR、Data Lab', c:'每带平均 12 次曝光叠加(3π)', v:'原始 ≈4 PB、产品数百 TB ⚠'},
+ d:{s:'夏威夷 Haleakala 的 PS1 望远镜 2009–2015 年约五年扫描全天可见 3π sr（Dec>−30°）：3π 巡天单次 45–60s 曝光、每带每年约 4 组成对曝光，五年累计每带 12–25 次；另有 10 个 Medium Deep 场每 2–4 夜回访做暂现源巡天。', p:'grizy 叠加图像 + 星表(3π ≈30 亿检测)', a:'MAST PS1 切图/API、VizieR、Data Lab', c:'每带平均 12 次曝光叠加(3π)', v:'原始 ≈4 PB、产品数百 TB ⚠'},
  status:'done', facility:'Pan-STARRS1 1.8 m（夏威夷 Haleakala）', dr:'DR2', drDate:'2019-01',
  area:'3π sr ≈ 30,850 deg²（Dec > −30°）', areaN:30850,
  bands:'g r i z y',
@@ -50,7 +50,7 @@ const SURVEYS = [
  note:'DR2 含 DR1 全部内容并开放单历元测光/天测数据库。Medium-Deep 字段深 2–3 mag。南天 Dec<−30° 无覆盖。'},
 
 {id:'des', name:'DES', en:'Dark Energy Survey', reg:['img','time'],
- d:{p:'grizY 图像 + 测光/形状星表 + SN/强透镜表', a:'DESC 数据库、LIneA、图像 cutout 服务', c:'Y1–Y6 分年释放(共 6 年)', v:'DR2 ≈7 亿源、图像 PB 级 ⚠'},
+ d:{s:'Blanco 4m + DECam 的国际协作计划：2013–2019 六个观测季共约 758 夜覆盖 5,000 deg² 南银帽，grizY 单次 90s、六年每带累计约 5–10 次访问；10 个 SN 场以数天节奏高频回访。2019 年后转入处理与发布，DR2 即六年全量。', p:'grizY 图像 + 测光/形状星表 + SN/强透镜表', a:'DESC 数据库、LIneA、图像 cutout 服务', c:'Y1–Y6 分年释放(共 6 年)', v:'DR2 ≈7 亿源、图像 PB 级 ⚠'},
  status:'done', facility:'Blanco 4 m + DECam（智利 CTIO）', dr:'DR2（含 Y1–Y6 全部六年）', drDate:'2024',
  area:'≈5,000 deg²（南银帽）', areaN:5000,
  bands:'g r i z Y',
@@ -62,7 +62,7 @@ const SURVEYS = [
  note:'DR2 为全部六年巡天数据；Y3 "Gold" 星表仍是很多论文的标准选择。与 KiDS 天区部分重叠、深度更深。'},
 
 {id:'legacy', name:'DESI Legacy Imaging Surveys', en:'DECaLS + BASS + MzLS (+DES/DELVE 等)', reg:['img','ir'],
- d:{p:'g/r/z 叠加图像 + Tractor 测光星表', a:'legacysurvey.org(切图/表)、NERSC、Data Lab', c:'每区域 3–8 次访问叠加', v:'DR11 ≈40 亿源、几十 TB'},
+ d:{s:'为 DESI 选源而建的三台相机联合计划（DECaLS+BASS+MzLS）：2014–2019 完成核心区 g/r/z 各 2–8 次访问；此后不断并入延伸区、DES 与部分 DECam 档案，滚动到 DR11（宣称 3/4 全天、5.6 万亿像素）——如今是事实上的公共交叉匹配底图工程。', p:'g/r/z 叠加图像 + Tractor 测光星表', a:'legacysurvey.org(切图/表)、NERSC、Data Lab', c:'每区域 3–8 次访问叠加', v:'DR11 ≈40 亿源、几十 TB'},
  status:'run', facility:'Blanco 4 m DECam / Bok 2.3 m / Mayall 4 m（南北联合）', dr:'DR11（最新）；DR10（常用稳定版）', drDate:'DR11: 2026-08',
  area:'DR11 ≈ 3/4 全天（≈3 万 deg²）⚠；DR10 >20,000 deg²', areaN:30000,
  bands:'g r i z（DR10 起含 i）+ WISE W1–W4 强制测光',
@@ -74,7 +74,7 @@ const SURVEYS = [
  note:'Tractor 目录直接给出 PSF/REX/EXP/DEV/Ser 形态类型与 nanomaggy 流量；W1–W4 来自 unWISE 叠加。DR11 号称史上最大 2D 天图（5.6 万亿像素）。'},
 
 {id:'hsc', name:'HSC-SSP', en:'Hyper Suprime-Cam Subaru Strategic Program', reg:['img'],
- d:{p:'grizy 五带图像 + 双管线星表(Wide/Deep/UDes)', a:'SMOKA、hsc-release.mtk.nao.ac.jp 查询/切图', c:'Wide 单带~多次；Deep 层数十次访问', v:'PDR3 星表数亿源 ⚠'},
+ d:{s:'Subaru 战略项目（SSP）2014–2021 约 300 夜分三层：Wide 设计 1,400 deg²、每带数十次 5–6 分钟级曝光；Deep ≈26 deg² 与 UltraDeep ≈3.5 deg² 逐层加深、每带百次级访问——弱透镜科学驱动的高像质叠深。', p:'grizy 五带图像 + 双管线星表(Wide/Deep/UDes)', a:'SMOKA、hsc-release.mtk.nao.ac.jp 查询/切图', c:'Wide 单带~多次；Deep 层数十次访问', v:'PDR3 星表数亿源 ⚠'},
  status:'run', facility:'Subaru 8.2 m + HSC（1.77 deg² 视场）', dr:'PDR3（最终版 PDR4 日期未定 TBD）', drDate:'2021-12',
  area:'Wide 设计 1,400 / 已观测 ≈2,200 deg²（满深度 ≈670）+ Deep/UltraDeep', areaN:2200,
  bands:'g r i z y（+Deep 层窄带）',
@@ -86,7 +86,7 @@ const SURVEYS = [
  note:'深度≈DES+2 mag、面积≈DES 的 1/2.5。最终版 PDR4（含 S23A 学期数据）反复延期，官方明确“尚无日期”。弱透镜剪切目录需申请。'},
 
 {id:'kids', name:'KiDS', en:'Kilo-Degree Survey (+VIKING 近红外)', reg:['img','ir'],
- d:{p:'ugri(+VIKING) 图像 + 星表 + 透镜剪切表', a:'KiDS 官网、ESO 档案、VizieR II/383', c:'每带数次浅叠', v:'DR5 ≈1 亿源十波段'},
+ d:{s:'ESO 公共巡天：VST 2011–2019 对南天两条带共 1,347 deg² 成像，ugri 每带 4–6 次曝光、按弱透镜标准控制像质；近红外层由同步运行的 VIKING 提供 ZYJHKs，合并即 KiDS DR5 十波段星表。', p:'ugri(+VIKING) 图像 + 星表 + 透镜剪切表', a:'KiDS 官网、ESO 档案、VizieR II/383', c:'每带数次浅叠', v:'DR5 ≈1 亿源十波段'},
  status:'done', facility:'VST 2.6 m OmegaCAM + VISTA 4.1 m（VIKING）', dr:'DR5（最终版）', drDate:'2024–2025（ESO Phase 3: 2025-03）',
  area:'1,347 deg²（南天两条带）', areaN:1347,
  bands:'u g r i + Z Y J H Ks（9 波段）',
@@ -98,7 +98,7 @@ const SURVEYS = [
  note:'巡天已完成、DR5 为最终版。提供 THELI 处理的 coadd 与 9 波段源表；透镜分析用的 value-added 目录随论文发布。'},
 
 {id:'skymapper', name:'SkyMapper', en:'SkyMapper Southern Sky Survey', reg:['img','gspec'],
- d:{p:'uvgriz 南天图像 + 星表 + 变星/SO 表', a:'SkyMapper 门户(查询/图像/cutout)', c:'每带多次访问', v:'DR4 >150 亿检测行'},
+ d:{s:'ANU 的南天巡天 2009–2024 十五年：六带 uvgriz、每带约 6 次访问（短长曝光组合），定制的 u/v 波段专为贫金属恒星的 [Fe/H] 测光设计；每 2–3 年滚动一个 DR。', p:'uvgriz 南天图像 + 星表 + 变星/SO 表', a:'SkyMapper 门户(查询/图像/cutout)', c:'每带多次访问', v:'DR4 >150 亿检测行'},
  status:'run', facility:'SkyMapper 1.35 m（澳洲 Siding Spring）', dr:'DR4（DR5 已在官网陆续出现数据表）', drDate:'2024-02',
  area:'南天全半球 + Dec<+16°（≈20,900 deg²）', areaN:20900,
  bands:'u v g r i z（uv/u 为金属丰度敏感能段）',
@@ -110,7 +110,7 @@ const SURVEYS = [
  note:'独特卖点是 uv/u 波段（可做 [Fe/H] 直接估算）。测光对点源优化，扩展源测光慎用（官方声明不保证）。'},
 
 {id:'delve', name:'DELVE', en:'DECam Local Volume Exploration Survey', reg:['img'],
- d:{p:'griz 叠加图像 + 测光星表 + 卫星星系列表', a:'NOIRLab Data Lab(表查询/切图)', c:'汇总一切 DECam 档案多次叠深(All Data Everywhere)', v:'DR2 ≈25 亿 / DR3 ≈26 亿检测'},
+ d:{s:'2019 年起的 DECam 增强计划：以 3 deg² 大视场在智利系统补齐高银纬南天，并持续收割全部 DECam 档案做 All-Data-Everywhere 叠加；目标南天 >21,000 deg²、深度 r≈24，专攻超暗矮星系与银晕亚结构。', p:'griz 叠加图像 + 测光星表 + 卫星星系列表', a:'NOIRLab Data Lab(表查询/切图)', c:'汇总一切 DECam 档案多次叠深(All Data Everywhere)', v:'DR2 ≈25 亿 / DR3 ≈26 亿检测'},
  status:'run', facility:'Blanco 4 m + DECam（3 deg² 视场）', dr:'DR3（2025，含 DES Y6，"All Data Everywhere"）；DR2（2022 论文）', drDate:'DR3: 2025',
  area:'DR2 >21,000 deg²（|b|>10°）；DR3 汇总全部 DECam 档案（≈39,000 次曝光）', areaN:21000,
  bands:'g r i z（4 宽带）',
@@ -122,7 +122,7 @@ const SURVEYS = [
  note:'DR3 整合社区+DES Y6 数据，2025 年从中新发现多个超暗卫星星系；选源做恒星/星系分类用 star/galaxy 分数。'},
 
 {id:'jplus', name:'J-PLUS', en:'Javalambre Photometric Local Universe Survey', reg:['img'],
- d:{p:'12 带图像 + 双孔径测光星表', a:'CEFCA 档案(web 查询/API)', c:'每带单次短曝光', v:'DR3 数千万源'},
+ d:{s:'西班牙特鲁埃尔天文台（OAJ）2015 年起：T80 0.83m 以 2 deg² 视场扫北天，12 带（5 宽带 + 7 窄带含 Hα/Ca 三重线）单次 ~55s 曝光；窄带直接给恒星参数与发射线星系，测光定标 1% 级。', p:'12 带图像 + 双孔径测光星表', a:'CEFCA 档案(web 查询/API)', c:'每带单次短曝光', v:'DR3 数千万源'},
  status:'run', facility:'OAJ T80 0.83 m + T80Cam（2 deg² 视场）', dr:'DR3（2022-07）；观测持续', drDate:'DR3: 2022-07',
  area:'≈3,192 deg²（掩膜后 2,881）', areaN:3192,
  bands:'12 波段：5 宽带 + 7 窄带（Hα、Ca 三重线等）',
@@ -134,7 +134,7 @@ const SURVEYS = [
  note:'12 波段测光定标达 1% 精度（2024, A&A 683）；与 S-PLUS 构成南北对应体系。'},
 
 {id:'splus', name:'S-PLUS', en:'Southern Photometric Local Universe Survey', reg:['img'],
- d:{p:'12 带图像 + 测光星表(DR4 共 1,629 场)', a:'splus.cloud、CDS、Data Lab', c:'每带单次短曝光', v:'DR4 数千万源'},
+ d:{s:'J-PLUS 的南天姊妹计划，2017 年起由巴西牵头多国运行：T80-S 0.8m 同样 12 带、单次短曝光，已覆盖 ≈3,000 deg²（目标 9,300）；与 J-PLUS 同套滤光片体系，南北联动做恒星参数与星系种群。', p:'12 带图像 + 测光星表(DR4 共 1,629 场)', a:'splus.cloud、CDS、Data Lab', c:'每带单次短曝光', v:'DR4 数千万源'},
  status:'run', facility:'Cerro Pachón T80-S 0.8 m + T80S-S', dr:'DR4（2024-09 论文）', drDate:'DR4: 2024',
  area:'≈3,000 deg²（目标 9,300）', areaN:3000,
  bands:'12 波段：5 宽带 + 7 窄带（同 J-PLUS 体系）',
@@ -146,7 +146,7 @@ const SURVEYS = [
  note:'DR4 初期限合作组，后经 CDS（II/380）与 Data Lab 公开；J-PAS 体系的南天版。'},
 
 {id:'jpas', name:'J-PAS', en:'Javalambre Physics of the Accelerating Universe Survey', reg:['img'],
- d:{p:'56 带图像 + 超多参数星表(EDR 每源 1,000+ 参数)', a:'CEFCA/IAA 档案', c:'每窄带多次短曝光', v:'EDR 6 万+ 源；全巡天预期数亿'},
+ d:{s:'OAJ 2.55m + JPCam 的全景低分辨光谱仪：54 个 ~14nm 窄带 + 2 中带同时成像，每场每带多次短曝光即得每源 56 点光谱（photo-z 堪比低分辨光谱）；设计 ≈8,000 deg²，2023 年底起全面开巡，EDR（12 deg²）2024-11 先行公开。', p:'56 带图像 + 超多参数星表(EDR 每源 1,000+ 参数)', a:'CEFCA/IAA 档案', c:'每窄带多次短曝光', v:'EDR 6 万+ 源；全巡天预期数亿'},
  status:'run', facility:'OAJ T250 2.55 m + JPCam（5 deg² 视场，14 CCD）', dr:'EDR（2024-11，12 deg² 全 56 波段）；宽场巡天已启动', drDate:'EDR: 2024-11',
  area:'EDR 12 deg²；设计 ≈8,000 deg²（1/5 天区）', areaN:8000,
  bands:'56 波段：54 窄带（≈14 nm）+ 2 中带',
@@ -158,7 +158,7 @@ const SURVEYS = [
  note:'前身 miniJPAS 已验证体系；宽场观测 2025 年起爬坡，DR1 时间表待官方公布。'},
 
 {id:'rubin', name:'Rubin / LSST', en:'Vera C. Rubin Observatory · LSST', reg:['img','time'],
- d:{p:'警报流(<60 s) + 单次差分图像 + DIASource/Object 表', a:'RSP 门户 + 警报 broker(ALeRCE/Fink/ANTARES)', c:'单次 30 s ×2 快照；设计每 3–4 天全天重访', v:'设计每夜 ≈20 TB、10 年 ≈60 PB ⚠'},
+ d:{s:'NSF–DOE 旗舰 Rubin 8.4m：2025-08 首光、2026-02-24 正式开启十年 LSST。主巡天对 18,000 deg² 南天以 30s×2 快照回访，单带十年累计 40–100+ 次、每源共约 800–1,000 次测光，基线每 3–4 天全天一遍；另有 Deep Drilling 等专层，每晚约 1,000 万警报。', p:'警报流(<60 s) + 单次差分图像 + DIASource/Object 表', a:'RSP 门户 + 警报 broker(ALeRCE/Fink/ANTARES)', c:'单次 30 s ×2 快照；设计每 3–4 天全天重访', v:'设计每夜 ≈20 TB、10 年 ≈60 PB ⚠'},
  status:'next', facility:'8.4 m（有效 6.7 m）Simonyi 望远镜 + LSSTCam（32 亿像素，9.6 deg²）', dr:'DP2 已发布（2026-06-27）；DR1 ≈ 2027', drDate:'DP2: 2026-06',
  area:'设计 18,000 deg²；DP1 ≈ 7 个 ComCam 视场（~40 deg²）', areaN:18000,
  bands:'u g r i z y',
@@ -171,7 +171,7 @@ const SURVEYS = [
 
 /* ---------------- 红外 / 紫外 ---------------- */
 {id:'twomass', name:'2MASS', en:'Two Micron All Sky Survey', reg:['ir'],
- d:{p:'JHKs 全天图像 + 点源/扩展源表', a:'IRSA(Gator 批量查询)', c:'单次曝光叠加', v:'点源 ≈4.7 亿 + 扩展源 165 万'},
+ d:{s:'IPAC 与 UMass 联合的全天红外奠基项目 1997–2001：南北两台 1.3m 用四年扫完全天，每方向 6 次扫描曝光、J/H/Ks 三带同时记录；2003 年发布终版全天目录，至今仍是全天近红外基准。', p:'JHKs 全天图像 + 点源/扩展源表', a:'IRSA(Gator 批量查询)', c:'单次曝光叠加', v:'点源 ≈4.7 亿 + 扩展源 165 万'},
  status:'done', facility:'2×1.3 m（美国 AZ + 智利）', dr:'终版（All-Sky Data Release）', drDate:'2003',
  area:'全天 41,253 deg²', areaN:41253,
  bands:'J H Ks（Vega 系统！）',
@@ -183,7 +183,7 @@ const SURVEYS = [
  note:'注意是 Vega 星等。与 WISE 组成全天红外标配；更深的近红外看 UHS/VHS/VIKING。'},
 
 {id:'wise', name:'WISE / AllWISE / unWISE / CatWISE', en:'Wide-field Infrared Survey Explorer', reg:['ir','time'],
- d:{p:'四带全天图像 + 星表 + NEOWISE 时域 + unWISE 年叠', a:'IRSA(unWISE/CatWISE/光变全在)', c:'原始单次；unWISE 每 6 个月一叠', v:'AllWISE ≈7.5 亿源 ⚠'},
+ d:{s:'NASA 中红外探测器 2009-12 发射：7 个月冻氢任务完成全天 W1–W4 巡扫，随后暗空/后冻氢观测；2013 年底以 NEOWISE 名义复活，改为每 6 个月全天一遍直到 2024——一个任务平台贡献了 22 个全天历元。', p:'四带全天图像 + 星表 + NEOWISE 时域 + unWISE 年叠', a:'IRSA(unWISE/CatWISE/光变全在)', c:'原始单次；unWISE 每 6 个月一叠', v:'AllWISE ≈7.5 亿源 ⚠'},
  status:'done', facility:'WISE 0.4 m 空间望远镜（2009 发射；NEOWASE 延寿至 2024-08）', dr:'AllWISE（2013）+ CatWISE2020 + unWISE 叠加', drDate:'2020–2023（滚动）',
  area:'全天', areaN:41253,
  bands:'W1 W2 W3 W4（3.4 / 4.6 / 12 / 22 μm，Vega）',
@@ -195,7 +195,7 @@ const SURVEYS = [
  note:'unWISE/neowiser 叠加图配强制测光是现在做 NIR/MIR 匹配的首选（Legacy Surveys 已内置 W1/W2）。'},
 
 {id:'vhs', name:'VHS', en:'VISTA Hemisphere Survey', reg:['ir'],
- d:{p:'YJHKs 图像 + 星表', a:'ESO Phase 3 档案、VSA', c:'每带 1–2 次浅叠', v:'≈10 亿检测 ⚠'},
+ d:{s:'VISTA 的南天大巡天 2012–2018：YJKs 覆盖 ≈17,000 deg²，DES/KiDS 天区加深并多叠几次（配弱透镜），其余区域每带 1–2 次浅叠；是南天光学巡天体系的近红外伴层。', p:'YJHKs 图像 + 星表', a:'ESO Phase 3 档案、VSA', c:'每带 1–2 次浅叠', v:'≈10 亿检测 ⚠'},
  status:'run', facility:'VISTA 4.1 m + VIRCAM（智利 Paranal）', dr:'滚动发布（DR6+，经 ESO 档案）⚠', drDate:'—',
  area:'南天 ≈17,000 deg²（VHS-DES 区更深）', areaN:17000,
  bands:'Y J H Ks（南部部分区域仅 Ks+J）',
@@ -207,7 +207,7 @@ const SURVEYS = [
  note:'数据经 ESO Science Archive 滚动开放，无传统“DR 数字”节奏；配合 VHS-DES 深区 (~J≈21.5) 使用。'},
 
 {id:'uhs', name:'UHS', en:'UKIDSS Hemisphere Survey', reg:['ir'],
- d:{p:'JHK 图像 + 星表(UKIDSS LAS 加深南扩)', a:'WSA(SQL 查询)', c:'单次', v:'≈ 数亿源 ⚠'},
+ d:{s:'UKIDSS LAS 的加深扩区（UKIRT 3.8m）：2014 年起多年累积，对北天 Dec>−3° 的 ≈4,700 deg² 做 J/H/K 三带成像、每带 2–4 次曝光，比 LAS 深 ~1 mag——北天近红外底图的现代版。', p:'JHK 图像 + 星表(UKIDSS LAS 加深南扩)', a:'WSA(SQL 查询)', c:'单次', v:'≈ 数亿源 ⚠'},
  status:'run', facility:'UKIRT 3.8 m + WFCAM（夏威夷）', dr:'DR1', drDate:'2023',
  area:'北天 ≈4,700 deg²（Dec > −3°）⚠', areaN:4700,
  bands:'J H K（部分 Y）',
@@ -219,7 +219,7 @@ const SURVEYS = [
  note:'与 PS1/Legacy 北天光学叠加使用效果最佳；成图质量好于老 UKIDSS LAS。'},
 
 {id:'viking', name:'VIKING', en:'VISTA Kilo-degree Infrared Galaxy survey', reg:['ir'],
- d:{p:'ZYJHKs 图像 + 星表(最方便经 KiDS DR5 十波段表)', a:'ESO 档案、KiDS DR5 页面', c:'每带多次浅叠', v:'合并十波段表 ≈1 亿源'},
+ d:{s:'ESO 公共巡天 2012–2018 与 KiDS 同步运行：VISTA 在同一 1,500 deg² 上做 ZYJHKs 五带成像，每带 5–6 次访问（半年度回访附带变源/微透镜基线）；产物直接并入 KiDS DR5 十波段星表。', p:'ZYJHKs 图像 + 星表(最方便经 KiDS DR5 十波段表)', a:'ESO 档案、KiDS DR5 页面', c:'每带多次浅叠', v:'合并十波段表 ≈1 亿源'},
  status:'done', facility:'VISTA 4.1 m + VIRCAM', dr:'DR4（2020-03，Phase 3）；DR5 已悄然入档 ⚠', drDate:'DR4: 2020-03',
  area:'≈1,500 deg²（KiDS 天区）', areaN:1500,
  bands:'Z Y J H Ks（5 近红外）',
@@ -231,7 +231,7 @@ const SURVEYS = [
  note:'单独取数走 ESO 档案；最方便入口是 KiDS DR5 的 ugri+ZYJHKs 十波段星表。'},
 
 {id:'vvv', name:'VVV / VVVX', en:'VISTA Variables in the Vía Láctea (eXtended)', reg:['ir','time'],
- d:{p:'ZYJHKs 多历元图像 + 红化图 + 变星/星团表', a:'ESO 档案、VSA、CDS(II/376 等)', c:'Ks 多历元(数十~百余次)，其余单次', v:'≈5 亿检测'},
+ d:{s:'VISTA 对银河系的长征：VVV 2010–2015 扫核球+邻盘 520 deg²（Ks 每场百余历元做变星），VVVX 2016–2020 扩展到 1,700 deg²；13 年约 420 夜、2024-10 完成全部观测——银道面红外时域的最长基线。', p:'ZYJHKs 多历元图像 + 红化图 + 变星/星团表', a:'ESO 档案、VSA、CDS(II/376 等)', c:'Ks 多历元(数十~百余次)，其余单次', v:'≈5 亿检测'},
  status:'done', facility:'VISTA 4.1 m + VIRCAM（多历元）', dr:'最终全量 2025-12（ESO Phase 3）；科学星表 DR5 / DR4.2（CDS）', drDate:'2025-12',
  area:'≈1,700 deg²（核球 + 南银盘）', areaN:1700,
  bands:'Z Y J H Ks + 窄带 H₂',
@@ -243,7 +243,7 @@ const SURVEYS = [
  note:'2024-10 完成全部观测（13 年 ≈420 夜），"迄今最大的银河系红外图"。'},
 
 {id:'ukidss', name:'UKIDSS', en:'UKIRT Infrared Deep Sky Survey', reg:['ir'],
- d:{p:'LAS/GPS/GCS/DXS/UDS 图像 + 星表', a:'WSA(SQL 查询，免费)', c:'LAS 每带 1–4 次 ⚠', v:'≈ 数亿源'},
+ d:{s:'UKIRT 的第一代工程化近红外巡天 2005–2012：LAS（4,000 deg²、每带 2 历元隔 ~2 年测自行）+ GPS（银道面）+ GCS（星团）+ DXS + UDS（最深 K≈25）五层结构，现以 DR11 存档于 WSA。', p:'LAS/GPS/GCS/DXS/UDS 图像 + 星表', a:'WSA(SQL 查询，免费)', c:'LAS 每带 1–4 次 ⚠', v:'≈ 数亿源'},
  status:'done', facility:'UKIRT 3.8 m + WFCAM', dr:'WSA 存档 DR11.x（UDS DR11 为终版）', drDate:'DR11: 2020 年代 ⚠',
  area:'五子巡天合计 ≈7,500 deg²（LAS 4,000 为主体）', areaN:7500,
  bands:'Y J H K（+窄带）；LAS/GPS/GCS/DXS/UDS 五部分',
@@ -255,7 +255,7 @@ const SURVEYS = [
  note:'UHS（本表另列）是其 LAS 的加深南扩；数据经 WSA 免费获取。'},
 
 {id:'ultravista', name:'UltraVISTA', en:'Ultra-deep VISTA survey of COSMOS', reg:['ir'],
- d:{p:'YJHKs(+窄带) 深/超深两层图像 + COSMOS2025 星表', a:'ESO 档案、IRSA', c:'2010–2025 逐季累积叠深', v:'超深层每像素数百次访问'},
+ d:{s:'ESO 超深公共巡天 2009-12 起在 COSMOS 场 1.5×1.2 deg² 逐季累积：深/超深条带的 Ks 对同一像素累积数百次曝光，DR6（2025-11）为 15 年总积累的均匀终版——最深的大视场近红外底图。', p:'YJHKs(+窄带) 深/超深两层图像 + COSMOS2025 星表', a:'ESO 档案、IRSA', c:'2010–2025 逐季累积叠深', v:'超深层每像素数百次访问'},
  status:'done', facility:'VISTA 4.1 m + VIRCAM', dr:'DR6 "Legacy"（2025-11，最终版，无 DR7）', drDate:'2025-11',
  area:'≈1.8 deg²（COSMOS 1.5°×1.2°）', areaN:1.8,
  bands:'Y J H Ks + 2 窄带（深/超深两层）',
@@ -267,7 +267,7 @@ const SURVEYS = [
  note:'与 DEVILS、COSMOS-Web、HSC 同场无缝叠加，多波段 SED 最完整的深场。'},
 
 {id:'cosmosweb', name:'COSMOS-Web', en:'COSMOS-Web（JWST Cycle 1 大项目）', reg:['ir'],
- d:{p:'NIRCam 四带镶嵌图 + 测光星表(+MIRI 区)', a:'COSMOS 数据中心(Caltech/IAP)、MAST', c:'2023-12–2025 多轮累积', v:'0.54 deg² 全量公开'},
+ d:{s:'JWST Cycle 1 规模最大的对外项目：255 小时于 2023 年主体完成 0.54 deg² 的 NIRCam 四带镶嵌（F115W/F150W/F277W/F444W）加 0.2 deg² MIRI，COSMOS 场核心区；2024–2025 分批公开并配套星表（COSMOS2025 体系）。', p:'NIRCam 四带镶嵌图 + 测光星表(+MIRI 区)', a:'COSMOS 数据中心(Caltech/IAP)、MAST', c:'2023-12–2025 多轮累积', v:'0.54 deg² 全量公开'},
  status:'done', facility:'JWST + NIRCam（另 ≈0.2 deg² MIRI）', dr:'DR1 全量公开（NIRCam+MIRI 镶嵌图 + 测光星表）', drDate:'2025',
  area:'0.54 deg²（约三个满月）', areaN:0.54,
  bands:'F115W / F150W / F277W / F444W（+MIRI）',
@@ -279,7 +279,7 @@ const SURVEYS = [
  note:'255 小时 JWST 项目；与 UltraVISTA/COSMOS2025 多波段体系直接对接。'},
 
 {id:'neowise', name:'NEOWISE', en:'NEOWISE Reactivation（WISE 时域）', reg:['ir','time'],
- d:{p:'每 6 个月全天 W1/W2 单曝表 + 全天时域光变', a:'IRSA(单曝源表/unWISE 年叠/CatWISE)', c:'每 6 个月全天一遍，共 ≈21 遍', v:'数亿源 × 21 历元'},
+ d:{s:'2013-12 起以 NEOWISE-R 模式复活的 WISE：只开 W1/W2，每 6 个月完成一遍全天（单历元 W1≈17.5），10.6 年共 ≈21.3 遍；2024-08 停机、2025 年再入大气层，最终释放 2024-11-14。', p:'每 6 个月全天 W1/W2 单曝表 + 全天时域光变', a:'IRSA(单曝源表/unWISE 年叠/CatWISE)', c:'每 6 个月全天一遍，共 ≈21 遍', v:'数亿源 × 21 历元'},
  status:'done', facility:'WISE 0.4 m 空间望远镜（近地天体模式）', dr:'最终释放 2024-11-14（10.6 年全量）', drDate:'2024-11',
  area:'全天 ×≈21.3 遍（每 6 个月一遍）', areaN:41253,
  bands:'W1 3.4 / W2 4.6 μm',
@@ -291,7 +291,7 @@ const SURVEYS = [
  note:'2024-08 停运、2025 年再入大气层；时域分析可用 unWISE 年度叠加与 CatWISE。'},
 
 {id:'galex', name:'GALEX', en:'Galaxy Evolution Explorer', reg:['uv'],
- d:{p:'FUV/NUV 图像 + 星表 + 时域(gPhoton)', a:'MAST(gPhoton 光变/切图)、VizieR', c:'AIS 单次；DIS 深场多次', v:'GR7 ≈ 数亿 UV 源 ⚠'},
+ d:{s:'NASA SMEX 任务 2003–2013：全天成像巡天 AIS（NUV≈20.8、单次访问）+ 中深 MIS（≈27,000 deg²、累积千秒级）+ 若干深场，另有 grism 紫外光谱模式；2013 年因飞轮故障结束观测。', p:'FUV/NUV 图像 + 星表 + 时域(gPhoton)', a:'MAST(gPhoton 光变/切图)、VizieR', c:'AIS 单次；DIS 深场多次', v:'GR7 ≈ 数亿 UV 源 ⚠'},
  status:'done', facility:'GALEX 0.5 m 空间紫外望远镜（2003–2013）', dr:'终版目录（GUVCat 等）', drDate:'2017（GUVCat）',
  area:'全天（AIS 浅层）；DIS/CAUSE 深场更深', areaN:41253,
  bands:'FUV（154 nm）/ NUV（230 nm），AB',
@@ -304,7 +304,7 @@ const SURVEYS = [
 
 /* ---------------- 空间任务 ---------------- */
 {id:'gaia', name:'Gaia', en:'ESA Gaia（天测 + 测光 + 中低分辨光谱）', reg:['astro','gspec','img'],
- d:{p:'位置/自行/视差 + G/BP/RP 测光 + 视向速度 + 低分辨光谱', a:'Gaia Archive(ADQL/TAP) + 多镜像', c:'DR3 为 34 个月平均；DR4 将发历元数据', v:'DR3 ≈18 亿源'},
+ d:{s:'ESA 天测基石任务：2013-12 发射、2014-07 起全天球扫描、2025-01 停止观测（约 11 年）。自旋-扫描几何让每个源平均每 ~63 天被记录一次（10 年 ≈50–70 历元/源）；DR4 将释放 66 个月的历元级天测/测光/光谱。', p:'位置/自行/视差 + G/BP/RP 测光 + 视向速度 + 低分辨光谱', a:'Gaia Archive(ADQL/TAP) + 多镜像', c:'DR3 为 34 个月平均；DR4 将发历元数据', v:'DR3 ≈18 亿源'},
  status:'run', facility:'ESA 天测卫星（1.45 m×0.5 m，L2）', dr:'DR3（最新）；DR4 预计 2026-12', drDate:'DR3: 2022-06-13',
  area:'全天', areaN:41253,
  bands:'G（330–1,050 nm）+ BP/RP 低分辨 + RVS',
@@ -316,7 +316,7 @@ const SURVEYS = [
  note:'2025-01 结束观测。DR4（66 个月数据）将首次发布历元天测/历元测光、RVS 历元光谱等 130+ 数据产品——双星/系外行星/暂现源研究的游戏规则改变者，预计 2026 年 12 月。'},
 
 {id:'euclid', name:'Euclid', en:'ESA Euclid（空间光学+NIR 成像/无缝光谱）', reg:['img','ir','xspec'],
- d:{p:'VIS/NISP 图像 + 形状/测光星表 + 强透镜候选表', a:'Euclid 科学档案(ESA EAS)、Caltech Q 页', c:'宽场巡天 6 年计划，逐季释放', v:'Q1 = 63 deg² 预览；DR1-Foundation 首半年'},
+ d:{s:'ESA 暗宇宙任务 2023-07 发射、2024-02 起科学运行：约六年步进扫描 14,000 deg² 宽场（避开银道面），每场 VIS+NISP 各 4 次曝光 + 两个指向的无缝光谱；另有 ~50 deg² 深场逐月回访。数据按 Q1/Q2/DR1-Foundation/DR1 节奏公共释放。', p:'VIS/NISP 图像 + 形状/测光星表 + 强透镜候选表', a:'Euclid 科学档案(ESA EAS)、Caltech Q 页', c:'宽场巡天 6 年计划，逐季释放', v:'Q1 = 63 deg² 预览；DR1-Foundation 首半年'},
  status:'next', facility:'Euclid 1.2 m（L2）；VIS 6 亿像素 + NISP', dr:'Q1（2025-03）；Q2（2026-06）；DR1-Foundation 2026-11-12', drDate:'Q2: 2026-06-24',
  area:'宽场设计 14,000 deg²；Q1 = 63.1 deg² 深场预览', areaN:14000,
  bands:'IE（550–900 nm，VIS）+ YE/HE/JE（NIR）；无缝光谱 R≈250',
@@ -328,7 +328,7 @@ const SURVEYS = [
  note:'DR1 拆成两步：2026-11-12 "DR1 Foundation"（首半年宽场数据）、2027 年中完整 DR1。Q2 为银核微透镜/系外行星深场。'},
 
 {id:'spherex', name:'SPHEREx', en:'NASA Spectro-Photometer for the History of the Universe', reg:['ir','xspec'],
- d:{p:'0.75–5 μm 全天 100+ 通道光谱光度 + 源表', a:'IRSA(随 Quick Release 滚动)', c:'全天 4 次/日，极区更深 ⚠', v:'预期数亿源低分辨光谱'},
+ d:{s:'NASA 全天光谱光度计 2025-03-11 发射：扫描策略每 ~6 个月完成一遍全天（每方向 6 组 112.5s 曝光、102 通道），25 个月标称任务共 4 遍全天光谱图；黄极附近按几何天然叠成深场（每通道数百次观测）。', p:'0.75–5 μm 全天 100+ 通道光谱光度 + 源表', a:'IRSA(随 Quick Release 滚动)', c:'每 ~6 个月全天一遍，25 个月共 4 遍；黄极天然叠深', v:'预期数亿源低分辨光谱'},
  status:'run', facility:'SPHEREx 0.2 m 空间光谱光度计（2025-03-11 发射）', dr:'Quick Release 滚动（QR2 2026-04；下一个 QR 2026-09）', drDate:'2026-04',
  area:'全天（102 个红外“颜色”通道）', areaN:41253,
  bands:'0.75–5 μm，102 通道；R≈41（短波）/ R≈135（长波）',
@@ -340,11 +340,11 @@ const SURVEYS = [
  note:'2025-07 起在 IRSA 每周滚动发布谱图像数据；“每个源都有光谱”是其与测光巡天的本质区别。'},
 
 {id:'roman', name:'Roman', en:'Nancy Grace Roman Space Telescope', reg:['ir','time','xspec'],
- d:{p:'WFI 近红外图像 + 无缝光谱 + 微透镜时域', a:'MAST/IPAC(2027 首光后滚动开放)', c:'核心+社区巡天分层，5 年任务', v:'视场 0.28 deg²；HLSS 规划 ≈2,000 deg²'},
+ d:{s:'NASA 2.4m 广视场旗舰 2026-09 发射，5 年主任务按核心社区巡天组织：高纬宽场 HLWAS（≈4,500 deg² 成像 + 无缝光谱，早期基线 2,000 deg²）、高纬时域（~19 deg²、数天节奏的超新星巡天）、银核时域 GBTDS（~2 deg²、标称 15 分钟节奏看微透镜，高节奏季 12 分钟）；各层设计由社区委员会定稿、可能微调。', p:'WFI 近红外图像 + 无缝光谱 + 微透镜时域', a:'MAST/IPAC(2027 首光后滚动开放)', c:'核心+社区巡天分层，5 年任务', v:'视场 0.28 deg²；HLWAS 规划 ≈4,500 deg²'},
  status:'next', facility:'Roman 2.4 m（宽视场 WFI 3 亿像素，0.28 deg²）', dr:'2026-09 已发射；首光图 ≈2027-01', drDate:'2026-09（发射）',
- area:'高纬度宽场巡天 HLSS 设计 ≈2,000 deg²', areaN:2000,
+ area:'高纬宽场 HLWAS ≈4,500 deg²（早期基线 2,000）', areaN:4500,
  bands:'0.48–2.3 μm（F062–F213）+ prism/grism 无缝光谱（R≈75–650）',
- depth:'HLSS 5σ ≈ 27 AB（近红外）⚠', depthN:27,
+ depth:'HLWAS 5σ ≈ 27 AB（近红外）⚠', depthN:27,
  resAng:'≈0.11″/像素；近 HST 像质', nsrc:'—', nN:0,
  sci:'近红外深场（Euclid/Rubin 的加深版）+ 银核微透镜系外行星统计。',
  links:[['Roman 官网','https://roman.nasa.gov/'],['Roman 文档（STScI）','https://roman-docs.stsci.edu/']],
@@ -352,7 +352,7 @@ const SURVEYS = [
  note:'2026 年 9 月发射（早于“不晚于 2027-05”的合同约束）；2027 年起观测。⚠ 时间线以 NASA 官方为准。'},
 
 {id:'csst', name:'CSST / 空间站望远镜', en:'Chinese Space Station Telescope（Xuntian）', reg:['img','xspec'],
- d:{p:'多色成像 + 无缝光谱 + 太空暂现监测', a:'国家天文科学数据中心(CNADC)', c:'在轨 5 年计划 ⚠', v:'设计 17,500 deg²'},
+ d:{s:'中国空间站工程巡天望远镜（Xuntian）：2m 主镜与天宫共轨，计划 2027 年发射、在轨 ≥10 年。巡天相机 18 带测光（255–1,000 nm，极限 ~26 AB）与 12 光栅无缝光谱（至 ~23 AB）同视场同时获取，十年覆盖 ≈17,500 deg²（避开银道面）；另有 MCI 等插拔深场模块。', p:'多色成像 + 无缝光谱 + 太空暂现监测', a:'国家天文科学数据中心(CNADC)', c:'在轨 5 年计划 ⚠', v:'设计 17,500 deg²'},
  status:'next', facility:'2 m 主镜，与天宫共轨飞行（长征五号 B，海南发射）', dr:'计划 2027 年发射', drDate:'计划 2027',
  area:'设计 17,500 deg²', areaN:17500,
  bands:'18 波段测光（NUV–NIR，255–1,000 nm）+ 多通道成像仪 MCI + 无缝光谱（R≈200）',
@@ -365,8 +365,8 @@ const SURVEYS = [
 
 /* ---------------- 光谱 · 河外 ---------------- */
 {id:'desi', name:'DESI', en:'Dark Energy Spectroscopic Instrument', reg:['xspec'],
- spec:'R≈2,000（BOSS）；BGS 更低分辨', rN:2000,
- d:{p:'四类目标光谱(BGS/LRG/ELG/QSO) + 红移表 + coadd 光谱', a:'DESI 数据门户(目录/光谱直接下载)', c:'每板 1–4 次曝光(15–30 分钟级)', v:'DR1 = 1,870 万光谱'},
+ spec:'R≈2,000–5,500（蓝低红高）', rN:2000,
+ d:{s:'DOE 旗舰光谱项目 2021-05 正式开巡：五年主巡天在 14,000 deg² 上按 BGS/LRG/ELG/QSO 四类目标打点约 4,000 万红移，平均每目标 2–4 次 15 分钟级曝光；2026 年起规划 DESI-II 扩展。', p:'四类目标光谱(BGS/LRG/ELG/QSO) + 红移表 + coadd 光谱', a:'DESI 数据门户(目录/光谱直接下载)', c:'每板 1–4 次曝光(15–30 分钟级)', v:'DR1 = 1,870 万光谱'},
  status:'run', facility:'Mayall 4 m + 5,000 光纤（KPNO）', dr:'DR1（公开）；DR2 结果已发、数据未公开', drDate:'DR1: 2025-03-19',
  area:'DR1 ≈9,000 deg²；全巡天设计 14,000 deg²', areaN:14000,
  bands:'3,600–9,824 Å；R≈2,000–5,500（蓝端低、红端高）',
@@ -379,7 +379,7 @@ const SURVEYS = [
 
 {id:'sdssv', name:'SDSS-V', en:'Sloan Digital Sky Survey V（MWM + BHM）', reg:['xspec','gspec','time'],
  spec:'R≈2,000（BOSS 双半球）', rN:2000,
- d:{p:'黑洞测绘+银河系测绘光谱(双半球) + ASPCAP 参数', a:'SDSS-V 门户(SkyServer 兼容)', c:'同一区域多轮回访', v:'DR19 ASPCAP 96.5 万星；DR20 累计千万级'},
+ d:{s:'SDSS 第五代 2020 秋启动、南（APO）北（LCO du Pont）双半球运行：Milky Way Mapper 对数十万恒星做 APOGEE+BOSS 多次回访（化学+运动学+双星时域），Black Hole Mapper 用重复光谱监测变化活动星系核，外加 LVM 对南天近邻星系做 IFU 成像光谱。', p:'黑洞测绘+银河系测绘光谱(双半球) + ASPCAP 参数', a:'SDSS-V 门户(SkyServer 兼容)', c:'同一区域多轮回访', v:'DR19 ASPCAP 96.5 万星；DR20 累计千万级'},
  status:'run', facility:'APO 2.5 m + LCO du Pont 2.5 m（双半球）', dr:'DR20（DR19 含 ASPCAP 恒星参数 96.5 万）', drDate:'DR20: 2026-07-30',
  area:'全天无缝选源（Milky Way Mapper / Black Hole Mapper）', areaN:30000,
  bands:'BOSS 光学 3,600–10,400 Å（R≈2,000）；APOGEE H 带 1.51–1.70 μm（R≈22,500）',
@@ -392,7 +392,7 @@ const SURVEYS = [
 
 {id:'eboss', name:'BOSS + eBOSS', en:'SDSS-III/IV 宇宙学光谱（DR16 终版）', reg:['xspec'],
  spec:'R≈2,000（BOSS）', rN:2000,
- d:{p:'LRG/ELG/QSO 光谱 + 红移表', a:'SDSS SAS/门户(DR16 终版)', c:'单次曝光', v:'≈ 数十万红移(z 0.6–2.2)'},
+ d:{s:'SDSS-III BOSS（2008–2014）与 SDSS-IV eBOSS（2014–2019）两代宇宙学光谱计划：在 ≈10,000 deg² 上以 1,000 光纤板打点 LRG/ELG/QSO——BOSS 出 150 万光谱，eBOSS 新增 50 万（含 Lyα 森林）；DR16 为终版。', p:'LRG/ELG/QSO 光谱 + 红移表', a:'SDSS SAS/门户(DR16 终版)', c:'单次曝光', v:'≈ 数十万红移(z 0.6–2.2)'},
  status:'done', facility:'APO 2.5 m + 1,000 光纤 BOSS', dr:'DR16（eBOSS 终版）', drDate:'2019-12',
  area:'≈10,000 deg²（北天+三条南带）', areaN:10000,
  bands:'3,600–10,400 Å；R≈2,000',
@@ -405,7 +405,7 @@ const SURVEYS = [
 
 {id:'lamost', name:'LAMOST', en:'郭守敬望远镜（低分辨+中分辨光谱巡天）', reg:['gspec'],
  spec:'LRS R≈1,800；MRS R≈7,500', rN:1800,
- d:{p:'LRS 低分辨 + MRS 中分辨光谱 + LASP 恒星参数', a:'LAMOST 官网 DR 页(FITS 批量下载)', c:'每板 1–2 次曝光，每晚多板', v:'DR13 累计 3,082 万条'},
+ d:{s:'国家天文台郭守敬望远镜 2012-09 正式开巡：4m 施密特 4,000 光纤每晚 30–60 块板，先做低分辨 LEGUE 巡天（2012–2017），2017 起切换中分辨（R≈7,500）并持续重复观测银道面；数据国内先发、国际版滞后约 1–1.5 年。', p:'LRS 低分辨 + MRS 中分辨光谱 + LASP 恒星参数', a:'LAMOST 官网 DR 页(FITS 批量下载)', c:'每板 1–2 次曝光，每晚多板', v:'DR13 累计 3,082 万条'},
  status:'run', facility:'兴隆 4 m 反射施密特（4,000 光纤，20 deg² 视场）', dr:'DR13 v1.0（2026-03，国内）；全球公开版 DR12 v2.0（2026-09）', drDate:'2026-03',
  area:'北天为主（银道面 + 河外选源区），累计 >1 万 deg² ⚠', areaN:10000,
  bands:'LRS 3,690–9,100 Å（R≈1,800）；MRS 双臂 5,150–5,350 / 6,300–6,800 Å（R≈7,500，非连续）',
@@ -418,7 +418,7 @@ const SURVEYS = [
 
 {id:'gama', name:'GAMA', en:'Galaxy And Mass Assembly', reg:['xspec'],
  spec:'R≈1,600（AAOmega 两臂）', rN:1600,
- d:{p:'红移表 + 22 波段 SED 增值星表 + 星团表', a:'GAMA DR 页直接下载、Data Central', c:'逐区多轮补测至高完备', v:'≈30 万红移'},
+ d:{s:'AAT 的银河系质量组装计划 2008–2014：在五个预选区（赤道带 G09/G12/G15 + G02/G23）对 r<19.8 星系多轮补测红移至 >98% 完备（每目标 2–4 次 15–20 分钟曝光），产出 30 万红移 + 22 波段 SED 增值星表。', p:'红移表 + 22 波段 SED 增值星表 + 星团表', a:'GAMA DR 页直接下载、Data Central', c:'逐区多轮补测至高完备', v:'≈30 万红移'},
  status:'done', facility:'AAT 3.9 m + AAOmega（2dF，400 光纤）', dr:'DR4（公开终版）；DR5 已见诸 2025–26 论文 ⚠', drDate:'2022',
  area:'≈286 deg²（G09/G12/G15 赤道带 + G23 南区）', areaN:286,
  bands:'3,750–8,850 Å 两臂；R≈1,600',
@@ -431,7 +431,7 @@ const SURVEYS = [
 
 {id:'devils', name:'DEVILS', en:'Deep Extragalactic VIsible Legacy Survey', reg:['xspec','ir'],
  spec:'R≈1,600（AAOmega 两臂）', rN:1600,
- d:{p:'光谱红移 + 28 波段匹配测光 + VISTA Y 深图', a:'Data Central(查询/下载)', c:'逐场多轮至 90% 完备(Y≈21)', v:'DR1(D10) 新增 5,442 红移'},
+ d:{s:'AAT 的深场红移工程 2018 年起：对三个经典深场（COSMOS / XMM-LSS / ECDFS，共 4.5 deg²）中 Y<21.2 的星系做 AAOmega 多轮光谱（单轮 ~2h）直至 90% 完备；DR1 先交 D10/COSMOS 区，28 波段匹配测光同步发布。', p:'光谱红移 + 28 波段匹配测光 + VISTA Y 深图', a:'Data Central(查询/下载)', c:'逐场多轮至 90% 完备(Y≈21)', v:'DR1(D10) 新增 5,442 红移'},
  status:'run', facility:'AAT 3.9 m + AAOmega（2dF）；VISTA/VIRCAM Y 深成像（叠 VIDEO）', dr:'DR1（D10/COSMOS 区）', drDate:'2025-12',
  area:'≈4.5 deg²（D10 COSMOS / D02 XMM-LSS / D03 ECDFS）', areaN:4.5,
  bands:'光谱 ≈3,700–9,500 Å（AAOmega 两臂）；选源 VISTA Y',
@@ -444,7 +444,7 @@ const SURVEYS = [
 
 {id:'hetdex', name:'HETDEX', en:'Hobby–Eberly Telescope Dark Energy Experiment', reg:['xspec'],
  spec:'R≈800（VIRUS 积分场）', rN:800,
- d:{p:'LAE 盲巡发射线表 + IFU 数据立方', a:'HETDEX 发布页(表/立方)', c:'每指向 3×20 分钟积分 ⚠', v:'PDR1 数十万发射线源 ⚠'},
+ d:{s:'HET 9.2m + VIRUS 的盲 IFU 巡天 2017 年末开始、采集约 3–4 年：不预选目标，每指向 3×20 分钟积分，对 440 deg²（春/秋两块）盲收 350–550 nm 光谱立方，事后从数亿条光纤光谱中筛 LAE 与 [OII]。', p:'LAE 盲巡发射线表 + IFU 数据立方', a:'HETDEX 发布页(表/立方)', c:'每指向 3×20 分钟积分 ⚠', v:'PDR1 数十万发射线源 ⚠'},
  status:'run', facility:'HET 9.2 m + VIRUS 78 单元 IFU（≈33k 光纤/次）', dr:'公开：PDR1（+SC1/SC2 源表）；内部 HDR4+ 更大', drDate:'PDR1: 2021-11',
  area:'设计 440 deg²；PDR1 = 86.67 deg²（Spring+Fall）', areaN:440,
  bands:'350–550 nm；R≈700（IFU 盲巡，无选源）',
@@ -457,7 +457,7 @@ const SURVEYS = [
 
 {id:'4most', name:'4MOST', en:'4-metre Multi-Object Spectroscopic Telescope', reg:['xspec','gspec'],
  spec:'规划：低 R≈1,000 / 高 R≈20,000', rN:1000,
- d:{p:'规划：低/高分辨光谱，5 类巡天并行', a:'规划：ESO Phase 3 档案', c:'巡天期 2026–2031', v:'目标 ≈2,500 万光谱'},
+ d:{s:'ESO 的南天光谱旗舰 2025-10 首光、2026–2031 五年公共巡天：2,448 光纤同时执行十几个联盟子巡天（eROSITA 光学对应体、银河系盘/晕化学、星系形成、AGN……），合计目标 ≈2,500 万光谱；原始数据实时入 ESO 档案。', p:'规划：低/高分辨光谱，5 类巡天并行', a:'规划：ESO Phase 3 档案', c:'巡天期 2026–2031', v:'目标 ≈2,500 万光谱'},
  status:'next', facility:'VISTA 4.1 m + 2,448 光纤（4.3 deg² 视场）', dr:'2025-10 首光；巡天 2026–2031；首个 DR 在巡天开始后', drDate:'首光 2025-10',
  area:'南天（>2,000 万光谱目标）', areaN:20000,
  bands:'LRS 370–950 nm（R≈6,500）；HRS 393–635 nm（R≈18,000）/ 635–950 nm（R≈31,000）',
@@ -470,7 +470,7 @@ const SURVEYS = [
 
 {id:'weave', name:'WEAVE', en:'WHT Enhanced Area Velocity Explorer', reg:['xspec','gspec'],
  spec:'低 R≈2,500 / 高 R≈20,000 ⚠', rN:2500,
- d:{p:'低/高分辨多光纤 + IFU 光谱', a:'ESO Phase 3(随 DR 发布)', c:'8 年巡天计划', v:'首个公开 DR 途中'},
+ d:{s:'WHT 4.2m 的新一代多目标光谱仪 2022-12 首光、2023 起执行八个子巡天约 1,200 夜（5–8 年）：Gaia 恒星考古、IC 星系、StePS 红移巡天、WEAVE-LOFAR 射电源识别等并行，目标 1,200–1,500 万光谱。', p:'低/高分辨多光纤 + IFU 光谱', a:'ESO Phase 3(随 DR 发布)', c:'8 年巡天计划', v:'首个公开 DR 途中'},
  status:'next', facility:'WHT 4.2 m + 1,000 光纤/mIFU（La Palma）', dr:'首光 2022-12；首个公开 DR 待定 ⚠', drDate:'—',
  area:'北天（8 个子巡天：银河系考古、IC 星系、StePS、LOFAR 跟踪等）', areaN:10000,
  bands:'LR 370–960 nm（R≈5,000）；HR ≈406–885 nm（R≈20,000）',
@@ -483,7 +483,7 @@ const SURVEYS = [
 
 {id:'vipers', name:'VIPERS', en:'VIMOS Public Extragalactic Redshift Survey', reg:['xspec'],
  spec:'R≈210（VIMOS LR）', rN:210,
- d:{p:'红移 + 光谱 + CFHTLS 测光(PDR-2 全量)', a:'CDS VizieR、LAM VO 光谱服务', c:'每区 1–2 轮', v:'≈9 万红移'},
+ d:{s:'VLT 公共巡天 2012–2016：用 VIMOS 在 CFHTLS W1+W4 共 24 deg² 对 I<22.5 星系打红移约 9 万条（z≈0.5–1.2），每指向 ~1 小时积分、每区 1–2 轮；PDR-2（2018）为终版。', p:'红移 + 光谱 + CFHTLS 测光(PDR-2 全量)', a:'CDS VizieR、LAM VO 光谱服务', c:'每区 1–2 轮', v:'≈9 万红移'},
  status:'done', facility:'VLT 8.2 m + VIMOS（多狭缝）', dr:'PDR-2（最终版）', drDate:'2018',
  area:'≈24 deg²（CFHTLS W1+W4）', areaN:24,
  bands:'3,600–8,700 Å（R≈210）',
@@ -496,7 +496,7 @@ const SURVEYS = [
 
 {id:'pfs', name:'PFS', en:'Subaru Prime Focus Spectrograph（PFS-SSP）', reg:['xspec'],
  spec:'低 R≈300–700 / 中 R≈6,000（三臂）⚠', rN:600,
- d:{p:'将发布：蓝/红/NIR 三臂同时光谱', a:'Subaru/NAOJ(随 SSP 发布)', c:'2025–2030 巡天(已全面运行)', v:'目标 ≈400 万'},
+ d:{s:'Subaru 主焦点光谱仪 2025-04 首次 SSP 科学观测、2026-03 全面运行：2,384 光纤、1.3° 视场，规划 ~300–360 夜扫 1,400–2,400 deg²（与 Rubin 天区重叠），星系宇宙学（BAO/弱透镜）与银河系晕考古两条主线；单次曝光覆盖 0.38–1.26 μm。', p:'将发布：蓝/红/NIR 三臂同时光谱', a:'Subaru/NAOJ(随 SSP 发布)', c:'2025–2030 巡天(已全面运行)', v:'目标 ≈400 万'},
  status:'run', facility:'Subaru 8.2 m 主焦点（2,384 光纤，1.3° 直径视场）', dr:'SSP 巡天 2025-04 开始；尚无公开 DR', drDate:'首光 2025-09',
  area:'目标 ≈1,400–2,400 deg²（与 Rubin 天区重叠）', areaN:2000,
  bands:'三臂 3,800–12,600 Å 单次覆盖（低分辨 + 可见中分辨）',
@@ -509,7 +509,7 @@ const SURVEYS = [
 
 {id:'moons', name:'MOONS', en:'VLT Multi-Object Optical and Near-infrared Spectrograph', reg:['xspec','ir'],
  spec:'R≈300 / 6,600 / 20,000 三档 ⚠', rN:300,
- d:{p:'规划：0.6–1.8 μm 千光纤多目标光谱', a:'ESO 档案(随 GTO/大项目)', c:'首光 2026 夏，随后巡天', v:'规划百万级'},
+ d:{s:'VLT 的千光纤近红外光谱仪（0.64–1.8 μm 三通道同时）2026 夏首光：规划十年 ESO 公共巡天——Wide 数千 deg² 数百万光谱，Deep 三个 ~1 deg² 场专攻 z~1–2 静息星系；首夜科学即对准银心高消光区。', p:'规划：0.6–1.8 μm 千光纤多目标光谱', a:'ESO 档案(随 GTO/大项目)', c:'首光 2026 夏，随后巡天', v:'规划百万级'},
  status:'next', facility:'VLT 8.2 m Nasmyth（1,000 光纤，≈500 arcmin² 视场）', dr:'首光 2026 夏；巡天即将展开', drDate:'2026 夏（首光）',
  area:'规划数千 deg²（GTO + 大科学项目）', areaN:0,
  bands:'0.64–1.8 μm 三通道同时（低/中/高分辨 R≈300–20,000 ⚠）',
@@ -522,7 +522,7 @@ const SURVEYS = [
 
 {id:'2df6df', name:'2dFGRS / 6dFGRS', en:'经典低红移红移巡天', reg:['xspec'],
  spec:'R≈350（2dF/6dF 光栅）', rN:350,
- d:{p:'红移表 + 星系参数(经典)', a:'VizieR/官网表', c:'单次', v:'2dF ≈25 万、6dF ≈12.5 万'},
+ d:{s:'红移巡天的两块基石：2dFGRS（AAT，1997–2002）两条 75°×5° 带共 2,000 deg²、bJ<19.45 出 25 万红移；6dFGRS（UKST，2001–2006）南天 |b|>10° 近红外选源 K<12.65 出 12.5 万红移 + 1.1 万本动速度。', p:'红移表 + 星系参数(经典)', a:'VizieR/官网表', c:'单次', v:'2dF ≈25 万、6dF ≈12.5 万'},
  status:'done', facility:'AAT 3.9 m 2dF / UKST 1.2 m 6dF', dr:'终版（2003 / DR3 2009）', drDate:'2009',
  area:'2dF ≈2,000 deg² 两条带；6dF 全南天 |b|>10°', areaN:17000,
  bands:'2dF 3,500–8,000 Å（R≈200）；6dF Ca 三重线 8,400–8,850 Å（R≈1,000）',
@@ -536,7 +536,7 @@ const SURVEYS = [
 /* ---------------- 光谱 · 银河系 ---------------- */
 {id:'apogee', name:'APOGEE-2', en:'SDSS 近红外高分辨恒星光谱', reg:['gspec'],
  spec:'R≈22,500（H 带高分辨）', rN:22500,
- d:{p:'H 带高分辨光谱 + ASPCAP 恒星参数/元素丰度', a:'SDSS 门户(SAS 批量)', c:'每源 3–24 次访问 ⚠', v:'≈ 百万星参数'},
+ d:{s:'SDSS 的近红外高分辨翼 2011–2020（APOGEE-1/2，双半球各 300 光纤）：对银盘/晕/麦哲伦云分区打点，每目标 3–24 次 ~10 分钟访问（兼得双星轨道），累计 66 万星、ASPCAP 给出 20+ 元素丰度；H 带几乎免疫尘埃。', p:'H 带高分辨光谱 + ASPCAP 恒星参数/元素丰度', a:'SDSS 门户(SAS 批量)', c:'每源 3–24 次访问 ⚠', v:'≈ 百万星参数'},
  status:'done', facility:'APO 2.5 m + LCO du Pont 2.5 m（双半球，300 光纤）', dr:'DR17（APOGEE-2 终版）；SDSS-V MWM 继续扩充', drDate:'2021-12',
  area:'全天（银盘截面、晕、麦哲伦云）', areaN:30000,
  bands:'H 带 1.51–1.70 μm；R≈22,500',
@@ -549,7 +549,7 @@ const SURVEYS = [
 
 {id:'galah', name:'GALAH', en:'GALactic Archaeology with HERMES', reg:['gspec'],
  spec:'R≈28,000（HERMES 四通道）', rN:28000,
- d:{p:'光学高分辨光谱 + 30+ 终端元素丰度', a:'Data Central、VizieR', c:'单次曝光(四通道同时)', v:'DR4 91.8 万恒星'},
+ d:{s:'AAT HERMES 四通道光谱仪的银河系考古计划 2013-11 起运行十年：对南天 V<14 的 Gaia 前身选源单次曝光同时收四个窗口（R≈28,000），累计 91.8 万星、约 30 种元素丰度——南天化学标尺。', p:'光学高分辨光谱 + 30+ 终端元素丰度', a:'Data Central、VizieR', c:'单次曝光(四通道同时)', v:'DR4 91.8 万恒星'},
  status:'run', facility:'AAT 3.9 m + HERMES（400 光纤）', dr:'DR4', drDate:'2024-10-01',
  area:'南天（|b|>10° 为主）', areaN:20000,
  bands:'4 个非连续窗口 4,713–7,887 Å；R≈28,000',
@@ -562,7 +562,7 @@ const SURVEYS = [
 
 {id:'gaiaeso', name:'Gaia-ESO Survey', en:'VLT 大规模公开光谱巡天（已收官）', reg:['gspec'],
  spec:'R≈20,000–47,000（GIRAFFE/UVES）', rN:20000,
- d:{p:'UVES/FLAMES 高分辨光谱 + 终端丰度', a:'ESO 科学档案', c:'星团锚点多次曝光', v:'≈11 万光谱 ⚠'},
+ d:{s:'ESO 公共巡天 2011–2018：VLT FLAMES（GIRAFFE+UVES）对南天场星与约 170 个疏散/球状星团做中高分辨光谱，星团作为化学标定锚点；共 11.5 万条光谱，终版 2023-07 入 ESO Phase 3。', p:'UVES/FLAMES 高分辨光谱 + 终端丰度', a:'ESO 科学档案', c:'星团锚点多次曝光', v:'≈11 万光谱 ⚠'},
  status:'done', facility:'VLT 8.2 m + FLAMES（130 光纤：GIRAFFE/UVES）', dr:'终版（第 5 次/最终数据发布）', drDate:'2023-07（ESO Phase 3）',
  area:'银河系全场+星团（南天为主）', areaN:10000,
  bands:'470–900 nm 多 setup；GIRAFFE R≈16,000–26,000；UVES R≈47,000',
@@ -575,7 +575,7 @@ const SURVEYS = [
 
 {id:'rave', name:'RAVE', en:'RAdial Velocity Experiment', reg:['gspec'],
  spec:'R≈7,500（Ca 三重线区）', rN:7500,
- d:{p:'Ca 三重线区中分辨光谱 + 恒星参数', a:'RAVE 官网/VizieR DR6', c:'单次 ≈10 分钟', v:'≈52.5 万恒星'},
+ d:{s:'UK Schmidt 6dF 的十年视向速度工程 2003–2013：对南天 I=8–12 恒星取单次 ~10 分钟的 Ca 三重线光谱，共 52 万条观测；Gaia 之前最大的视向速度+恒星参数库，现多作交叉样本使用。', p:'Ca 三重线区中分辨光谱 + 恒星参数', a:'RAVE 官网/VizieR DR6', c:'单次 ≈10 分钟', v:'≈52.5 万恒星'},
  status:'done', facility:'UKST 1.2 m + 6dF（150 光纤）', dr:'DR6（终版）', drDate:'2020',
  area:'南天（|b|>15° 为主）', areaN:20000,
  bands:'Ca II 三重线 8,410–8,795 Å；R≈7,500',
@@ -588,7 +588,7 @@ const SURVEYS = [
 
 /* ---------------- 射电 ---------------- */
 {id:'lotss', name:'LoTSS', en:'LOFAR Two-metre Sky Survey', reg:['radio'],
- d:{p:'144 MHz 镶嵌图/单场图 + 射电源表', a:'LoTSS 发布页、ASTRON LTA', c:'每指向 8 小时积分', v:'DR3 ≈ 数百万源(北天 88%)'},
+ d:{s:'LOFAR HBA（120–168 MHz）的十年工程：每个指向 8 小时积分（远程台站给到 6″ 分辨率），累计 12,950 小时扫过北天 88%（DR3，2025）——迄今天区最大、最深的低频射电巡天；DR2 4,417 deg² 已出 440 万源。', p:'144 MHz 镶嵌图/单场图 + 射电源表', a:'LoTSS 发布页、ASTRON LTA', c:'每指向 8 小时积分', v:'DR3 ≈ 数百万源(北天 88%)'},
  status:'run', facility:'LOFAR（荷兰核心+欧洲台站，HBA）', dr:'DR3', drDate:'2025',
  area:'DR3 = 北天 88%（迄今最大射电巡天）；DR2 = 4,417 deg²', areaN:32500,
  bands:'120–168 MHz',
@@ -600,7 +600,7 @@ const SURVEYS = [
  note:'12,950 小时 / 18.6 PB 的十年工程。低频视场做 AGN 瞬变与光深分析时注意长波选源偏差；配套 LoLSS（42–66 MHz）在建。'},
 
 {id:'racs', name:'RACS', en:'Rapid ASKAP Continuum Survey', reg:['radio'],
- d:{p:'全天 888 MHz(+低/中带)图像 + 源表', a:'CASDA(CSIRO ASKAP 档案)', c:'每指向单次 ≈15 分钟', v:'每带 ≈200 万+ 源 ⚠'},
+ d:{s:'ASKAP 的快速打底巡天 2019 年起：每指向 ~15 分钟扫全天南天，先 887.5 MHz 一遍，2021–2025 又以 165.5 / 1,367.5 / 1,655.5 MHz 各重扫一遍——四个频段各 ≈200 万源，历元间隔自带变源基线。', p:'全天 888 MHz(+低/中带)图像 + 源表', a:'CASDA(CSIRO ASKAP 档案)', c:'每指向单次 ≈15 分钟', v:'每带 ≈200 万+ 源 ⚠'},
  status:'run', facility:'ASKAP 36×12 m 阵列（PAF 相位阵馈源）', dr:'RACS-low1/2/3 + mid + high（多频段滚动）', drDate:'RACS-high 论文 2025-01',
  area:'全天南 + 北至 Dec≈+49°（≈34,000 deg²）', areaN:34000,
  bands:'low 887.5 MHz / mid 1,367.8 MHz / high 1,655.5 MHz',
@@ -612,7 +612,7 @@ const SURVEYS = [
  note:'多历元（low1/2/3）本身构成变源数据集；2025 年有自修正正的文章发布——使用旧目录时应用其天测修正。'},
 
 {id:'emu', name:'EMU', en:'Evolutionary Map of the Universe', reg:['radio'],
- d:{p:'943 MHz 连续谱图 + 源表(南天)', a:'CASDA', c:'每场 ≈10 小时积分 ⚠', v:'DR1 数百万源'},
+ d:{s:'ASKAP 旗舰图集计划：943 MHz、设计深度 ≈25 μJy/beam 扫南天 Dec<+30°（≈30,000 deg²），目标 ≈7,000 万源、约 4–5 年完成；全部数据实时入 CASDA，DR1（2025）为首块天区。', p:'943 MHz 连续谱图 + 源表(南天)', a:'CASDA', c:'每场 ≈10 小时积分 ⚠', v:'DR1 数百万源'},
  status:'run', facility:'ASKAP 36×12 m 阵列', dr:'DR1（首版南天图集）', drDate:'2025',
  area:'目标：南天 Dec<+30°（≈30,000 deg²）；DR1 为首块天区 ⚠', areaN:30000,
  bands:'中心 943.5 MHz（带宽 288 MHz）',
@@ -624,7 +624,7 @@ const SURVEYS = [
  note:'比 NVSS 深 ~100 倍；与 LSST/EMU 的射电-光学交叉是南天时域的核心组网。DR1 具体面积/源数以论文与 CASDA 为准。'},
 
 {id:'vlass', name:'VLASS', en:'VLA Sky Survey', reg:['radio','time'],
- d:{p:'2–4 GHz 图像(3 轮 epoch) + 快变/暂现表', a:'NRAO 档案(Quicklook + 时域)', c:'每 epoch 全天 ≈18 个月，共 3 轮', v:'每轮 ≈200 万源 ⚠'},
+ d:{s:'NRAO 的时域射电巡天 2017–2026：S 波段 2–4 GHz、2.5″ 分辨率，每 ~18 个月扫完 33,885 deg²（Dec>−40°）一遍、共三轮（历元间隔 ~2.5 年）专攻变源与暂现；Epoch 4.1 已获批延长观测。', p:'2–4 GHz 图像(3 轮 epoch) + 快变/暂现表', a:'NRAO 档案(Quicklook + 时域)', c:'每 epoch 全天 ≈18 个月，共 3 轮', v:'每轮 ≈200 万源 ⚠'},
  status:'run', facility:'NRAO VLA（S 波段，2–4 GHz）', dr:'Epoch 1–3 完成 + SE1/SE2 共加；Epoch 4.1 已批', drDate:'Ep3 完成 2024-10；观测延至 2026-02',
  area:'33,885 deg²（Dec > −40°，两天区）', areaN:33885,
  bands:'2–4 GHz（S 波段）',
@@ -636,7 +636,7 @@ const SURVEYS = [
  note:'QL 图像精度有限（自校准后更好）；做测光/光变请用单历元 QL 目录并查已知系统误差文档。'},
 
 {id:'nvss', name:'NVSS / FIRST', en:'VLA 1.4 GHz 经典巡天', reg:['radio'],
- d:{p:'1.4 GHz 连续谱图 + 源表(+FIRST 高分辨)', a:'NRAO、VizieR', c:'单次短曝光', v:'NVSS 177 万 + FIRST 94 万'},
+ d:{s:'上一代射电默认底图：NVSS 1993–1997 用 VLA D 配置对 Dec>−40° 全天做 45″ 大束成像（低面亮度流量最完整）；FIRST 1993–2011 对北天 10,000 deg² 以 5.4″ 精测结构——两者至今仍是交叉匹配基石。', p:'1.4 GHz 连续谱图 + 源表(+FIRST 高分辨)', a:'NRAO、VizieR', c:'单次短曝光', v:'NVSS 177 万 + FIRST 94 万'},
  status:'done', facility:'VLA（1.4 GHz）', dr:'终版（1998 / 2015 增补）', drDate:'1998/2015',
  area:'NVSS：Dec>−40° 全天；FIRST：北天 ≈10,000 deg²', areaN:28000,
  bands:'1.4 GHz（L 波段）',
@@ -649,7 +649,7 @@ const SURVEYS = [
 
 /* ---------------- X 射线 ---------------- */
 {id:'gleam', name:'GLEAM', en:'GaLactic and Extragalactic All-sky MWA survey', reg:['radio'],
- d:{p:'72–231 MHz 20 子带图 + 源表(+GLEAM-X/300)', a:'MWA 公共档案、VizieR', c:'每指向数分钟积分 ⚠', v:'全天表 ≈30.7 万源'},
+ d:{s:'MWA 的低频全天天图 2013–2016：对 Dec<+30° 全天做 72–231 MHz 扫描、单场同时出 20 个子带图像，得 30.7 万源全天表（2022）；GLEAM-X 加深银道面、GLEAM-300（2025）扩至 300 MHz。', p:'72–231 MHz 20 子带图 + 源表(+GLEAM-X/300)', a:'MWA 公共档案、VizieR', c:'每指向数分钟积分 ⚠', v:'全天表 ≈30.7 万源'},
  status:'run', facility:'MWA 相控阵（西澳）', dr:'全天源表（2022 宽带版）；GLEAM-X DR2 + GLEAM-300（2025）', drDate:'2022 / 2025',
  area:'≈10,400 deg²（Dec<+30°）', areaN:10300,
  bands:'72–231 MHz（20 子带；GLEAM-300 扩至 300 MHz）',
@@ -661,7 +661,7 @@ const SURVEYS = [
  note:'GLEAM-X 为扩展阵加深版；GLEAM-300（2025）扩展到 300 MHz。'},
 
 {id:'apertif', name:'Apertif', en:'WSRT 相控阵馈源巡天（1.4 GHz 连续谱 + HI）', reg:['radio'],
- d:{p:'1.4 GHz 连续谱图 + 源表 + HI 21 cm 光谱立方', a:'ASTRON Apertif DR 页 + 档案', c:'每场 ≈1 小时积分 ⚠', v:'连续谱 ≈40 万源 + HI 星系 1–2 万 ⚠'},
+ d:{s:'WSRT 的相控阵馈源改造 2019–2022：40 波束让视场 ×30，对北天 ≈3,500 deg² 做连续谱（μJy 级）+ HI 21cm 中深巡天与毫秒级时域搜索；2022 年因经费停摆，数据 2022–2024 全部公开于 ASTRON 档案。', p:'1.4 GHz 连续谱图 + 源表 + HI 21 cm 光谱立方', a:'ASTRON Apertif DR 页 + 档案', c:'每场 ≈1 小时积分 ⚠', v:'连续谱 ≈40 万源 + HI 星系 1–2 万 ⚠'},
  status:'done', facility:'WSRT 14×25 m + Apertif PAF（40 波束，300 MHz 带宽）', dr:'DR1（2022 成像+HI）；DR2 连续谱 + 时域 DR2（最终）', drDate:'DR2: 2023–24 ⚠',
  area:'≈3,500 deg² 北天', areaN:3500,
  bands:'1,210–1,500 MHz 连续谱 + H I 21 cm 谱线',
@@ -673,7 +673,7 @@ const SURVEYS = [
  note:'WSRT 时代最后的巡天形态；HI 数据经 ASTRON 档案获取。'},
 
 {id:'erosita', name:'eROSITA', en:'SRG/eROSITA 全天 X 射线巡天（德方）', reg:['xray'],
- d:{p:'0.2–10 keV 源表 + 光子事件表 + 工具链', a:'eROSITA-DE 数据中心(表/工具)', c:'每 6 个月全天一遍(设计 8 遍)', v:'eRASS1 ≈92 万源(西半天)'},
+ d:{s:'俄德 SRG 卫星 2019-07 入 L2、2019-12 起软 X 射线全天扫描：设计每 6 个月一遍、共 8 遍；eRASS1（第一遍西银半球）2024-01 公开 ≈93 万源与首个宇宙学星团样本；2022 年起德俄合作中止，东半球数据无公开时间表。', p:'0.2–10 keV 源表 + 光子事件表 + 工具链', a:'eROSITA-DE 数据中心(表/工具)', c:'每 6 个月全天一遍(设计 8 遍)', v:'eRASS1 ≈92 万源(西半天)'},
  status:'run', facility:'SRG 卫星 eROSITA（L2；7 组 Wolter 光学）', dr:'eRASS1 目录（西银半球）', drDate:'2024-01/02 公开',
  area:'西银半球 ≈20,000 deg²（eRASS1）；俄方东半球数据未公开', areaN:20000,
  bands:'0.2–12 keV（主能段 0.5–2 keV）',
@@ -686,7 +686,7 @@ const SURVEYS = [
 
 /* ---------------- 时域 ---------------- */
 {id:'xxl', name:'XXL', en:'XMM-Newton Large Survey', reg:['xray'],
- d:{p:'X 射线光子表 + 星团/AGN 表 + 多波段增值', a:'XXL 科学数据库(LAM)、XMM 档案', c:'每场 10–40 ks 一次性', v:'≈450 星团 + ≈2.2 万 AGN'},
+ d:{s:'XMM-Newton 史上最大项目（≈6.9 Ms、220 指向，2011 年获批分多年执行）：对南北两片各 ≈25 deg² 做逐场 10–40 ks 积分，建成最大均匀 X 射线星团样本（≈450 簇）+ 2.2 万 AGN；DES/CFHTLS/红外/射电多波段配套齐备。', p:'X 射线光子表 + 星团/AGN 表 + 多波段增值', a:'XXL 科学数据库(LAM)、XMM 档案', c:'每场 10–40 ks 一次性', v:'≈450 星团 + ≈2.2 万 AGN'},
  status:'done', facility:'XMM-Newton（≈6.7 Ms，XMM 史上最大项目）', dr:'DR1 2016 起；释放随论文滚动更新', drDate:'首版 2016',
  area:'50 deg²（南/北两区各 ≈25）', areaN:50,
  bands:'0.5–10 keV（EPIC pn/MOS）',
@@ -698,7 +698,7 @@ const SURVEYS = [
  note:'多波段配套（DES/CFHTLS/红外/射电）齐备；数据经 XXL 科学数据库（LAM）获取。'},
 
 {id:'ep', name:'Einstein Probe', en:'爱因斯坦探针 EP（时域软 X 射线）', reg:['xray','time'],
- d:{p:'WXT 全天监测预警 + FXT 跟随光谱/成像', a:'EP 档案(ESA/NAOC，保护期后) + GCN/ATel', c:'WXT 连续监测(轨道节拍重访)', v:'230+ 暂现源(2 年+)'},
+ d:{s:'中科院领军的爱因斯坦探针 2024-01-09 发射：龙虾眼光学 WXT 单帧 3,600 deg²、每轨扫过大半天球、数小时完成全天一遍的软 X 射线连续监测，发现暂现即用 FXT 窄场定位；数据按 ToO 6 个月 / 常规 1 年保护期入 ESA/NAOC 档案。', p:'WXT 全天监测预警 + FXT 跟随光谱/成像', a:'EP 档案(ESA/NAOC，保护期后) + GCN/ATel', c:'WXT 连续监测(轨道节拍重访)', v:'230+ 暂现源(2 年+)'},
  status:'run', facility:'EP 卫星（2024-01 发射）：WXT 广角 + FXT 跟随', dr:'数据档案 2025-12-11 开放（ToO 6 个月 / 常规 1 年保护期）', drDate:'2025-12',
  area:'全天监测（WXT 单帧视场 3,600 deg²）', areaN:41253,
  bands:'软 X 射线 0.5–4 keV（龙虾眼微孔光学）',
@@ -710,7 +710,7 @@ const SURVEYS = [
  note:'中欧合作；暂现源经 GCN/ATel 实时通报，Swift-XRT 有配套跟测页。'},
 
 {id:'ztf', name:'ZTF', en:'Zwicky Transient Facility', reg:['time'],
- d:{p:'g/r 单次图 + 差分警报流 + 光变曲线', a:'IRSA ZTF 服务 + 警报 broker(ALeRCE 等)', c:'每 3 天全天(g/r 交替)', v:'每夜数十万警报 ⚠'},
+ d:{s:'Palomar 1.2m Samuel Oschin 望远镜 + 47 deg² 相机 2018-03 开巡：基线模式每 3 天对可见天区 g/r 各一次（每夜每场 2×30s），合作模式可做夜内多次高频；Phase II 计划运行至 2028，与 Rubin 并行互补。', p:'g/r 单次图 + 差分警报流 + 光变曲线', a:'IRSA ZTF 服务 + 警报 broker(ALeRCE 等)', c:'每 3 天全天(g/r 交替)', v:'每夜数十万警报 ⚠'},
  status:'run', facility:'Palomar 1.2 m Samuel Oschin + 47 deg² 相机', dr:'滚动发布（DR23/24 一线；DR2 含 >10¹² 测光值）', drDate:'2025–2026（最新版）',
  area:'全天可及（每 3 天覆盖 g/r 一次）', areaN:30000,
  bands:'g r i（+ 窄带：Hα/OIII 等）',
@@ -722,7 +722,7 @@ const SURVEYS = [
  note:'数据分公开/合作两部分；实时警报经 ALerRCE / Fink / ANTARES / MARS 分发。2026+ 与 Rubin 并行运行。'},
 
 {id:'tess', name:'TESS', en:'Transiting Exoplanet Survey Satellite', reg:['time'],
- d:{p:'2 分钟/20 秒目标光变 + FFI 全天图像', a:'MAST(SPOC/QLP 管线)', c:'每扇区 27 天凝视(FFI 200 s–30 min)', v:'数千万光变曲线'},
+ d:{s:'NASA 系外行星巡天者 2018-04 发射：以 27 天凝视扇区推进（主任务 2 年 26 扇区覆盖全天 ~85%），FFI 节奏从主任务 30 分钟提到延寿期 10 分钟、200 秒，另有 2 分钟/20 秒目标级管线；延寿任务持续运行中。', p:'2 分钟/20 秒目标光变 + FFI 全天图像', a:'MAST(SPOC/QLP 管线)', c:'每扇区 27 天凝视(FFI 200 s–30 min)', v:'数千万光变曲线'},
  status:'run', facility:'TESS 4×0.1 m 广角（全天分 26 扇区）', dr:'滚动（Sector 级，FFI 200s/600s）', drDate:'持续更新',
  area:'全天（逐扇区 27 天凝视）', areaN:41253,
  bands:'600–1,000 nm（宽白光）',
@@ -734,7 +734,7 @@ const SURVEYS = [
  note:'21″ 像素 → 混光严重，做恒星光变务必用 Gaia 源表做污染检查。'},
 
 {id:'asassn', name:'ASAS-SN', en:'All-Sky Automated Survey for Supernovae', reg:['time'],
- d:{p:'V/g 光变数据库(Sky Patrol) + 变星/SN 表', a:'asas-sn.osu.edu 直接下载(免费)', c:'全天每晚数次', v:'≈1 亿目标测光'},
+ d:{s:'俄亥俄州立主导的全天亮端监测 2014 年起：5 站（智利×2 / 夏威夷 / 南非 / 德州）共 20 台 14cm 镜头，对可见全天每晚 1–3 次测光（现 g 带、历史 V 带）；深度 g≈17.5、饱和 g≈12——补上 ZTF/Rubin 的亮端空档。', p:'V/g 光变数据库(Sky Patrol) + 变星/SN 表', a:'asas-sn.osu.edu 直接下载(免费)', c:'全天每晚数次', v:'≈1 亿目标测光'},
  status:'run', facility:'全球 5 站 20 台 14 cm 望远镜（V + g）', dr:'Sky Patrol V2+（滚动实时）', drDate:'滚动',
  area:'全天（每晚数次）', areaN:41253,
  bands:'V（历史）/ g（现行）',
@@ -746,7 +746,7 @@ const SURVEYS = [
  note:'与 ZTF/Rubin 互补的亮端（g<17.5）；数据免费即取、无需申请。'},
 
 {id:'atlas', name:'ATLAS', en:'Asteroid Terrestrial-impact Last Alert System', reg:['time'],
- d:{p:'o/c 差分图像 + 警报流 + ATLAS-VAR 光变表', a:'MAST ATLAS-VAR、fallingstar 警报', c:'可见全天每晚 ≥4 次', v:'1.42 亿恒星 ≥100 次测光'},
+ d:{s:'夏威夷大学的小行星撞击预警系统 2015 年起扩为 4 站 0.5m（夏威夷×2、智利、南非）：对可见全天每晚 ≥4 次 30s 曝光（o/c 双带交替）、深度 ≈19.5；本职是近地小行星预警，副产品是亮暂现源与 470 万变星候选库。', p:'o/c 差分图像 + 警报流 + ATLAS-VAR 光变表', a:'MAST ATLAS-VAR、fallingstar 警报', c:'可见全天每晚 ≥4 次', v:'1.42 亿恒星 ≥100 次测光'},
  status:'run', facility:'4 站 0.5 m 广视场（夏威夷×2、智利、南非）', dr:'ATLAS-VAR（MAST，470 万变星候选）+ 滚动警报', drDate:'滚动',
  area:'全天可见区（每晚 ≥4 次）', areaN:41253,
  bands:'o（橙）/ c（青）双宽带',

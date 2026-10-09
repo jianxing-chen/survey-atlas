@@ -178,6 +178,7 @@ function drawerHTML(s){
       <div class="dw-tags">${tags}<span class="stamp ${st[1]}">${st[0]}</span></div>
     </div>
     <dl class="kv">${kv}</dl>
+    ${sec('巡天计划','PROGRAMME', d.s?`<p>${esc(d.s)}</p>`:'')}
     ${sec('发布了什么数据','RELEASED', d.p?`<p>${esc(d.p)}</p>`:'')}
     ${sec('数据形态与规模','FORMAT & SCALE', d.v?`<p>${esc(d.v)}</p>`:'')}
     ${sec('观测节奏','CADENCE', d.c?`<p>${esc(d.c)}</p>`:'')}
@@ -273,7 +274,7 @@ function chartImaging(){
     {n:'Euclid', a:14000, d:24.5, c:REG.img.hex, band:'IE 宽场'},
     {n:'HSC', a:2200, d:26.6, c:REG.img.hex, band:'r Wide', lo:[-8,-6], anchor:'end'},
     {n:'Rubin', a:18000, d:27.5, c:REG.time.hex, band:'10yr 堆叠 r'},
-    {n:'Roman', a:2000, d:27.0, c:REG.ir.hex, band:'HLSS NIR'},
+    {n:'Roman', a:4500, d:27.0, c:REG.ir.hex, band:'HLWAS NIR'},
     {n:'DEVILS', a:4.5, d:27.2, c:REG.ir.hex, band:'Y 叠VIDEO', lo:[8,15]},
     {n:'COSMOS-Web', a:0.54, d:27.8, c:REG.ir.hex, band:'F277W', lo:[8,10]},
     {n:'UltraVISTA', a:1.8, d:25.3, c:REG.ir.hex, band:'Ks 超深'},
