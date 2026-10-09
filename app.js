@@ -403,6 +403,52 @@ function syncIndex(){
   document.querySelectorAll('#rulerX .xseg').forEach(b=>b.classList.toggle('on',b.dataset.k===state.reg));
 }
 
+/* ---- header：回顶 / 搜索 / 滚动进度（频谱条）/ 章节 scrollspy ---- */
+/* 注：部分内嵌环境对程序化 smooth 滚动 no-op，这里用 rAF 自绘保证一致 */
+function scrollToEl(el, offset=0){
+  const target=()=>el.getBoundingClientRect().top + window.scrollY - offset;
+  /* 后台标签页/隐藏 webview 中 rAF 与平滑滚动会被暂停，直接跳转 */
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden){window.scrollTo(0,target());return}
+  const t0=performance.now(), D=700;
+  const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  const step=n=>{
+    const p=Math.min(1,(n-t0)/D);
+    /* 每帧重算目标，抵消字体加载等引起的布局位移 */
+    window.scrollTo(0, target()*p + window.scrollY*(1-p));
+    if(p<1)requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+function initHeader(){
+  document.querySelector('.brand').addEventListener('click',e=>{
+    e.preventDefault(); scrollToEl(document.body, 0);
+  });
+  $('#hdrSearch').addEventListener('click',()=>{
+    const el=document.getElementById('table');
+    scrollToEl(el, 64);
+    setTimeout(()=>{
+      $('#q').focus({preventScroll:true});
+      /* 字体迟加载可能移动布局，聚焦时再校正一次 */
+      const top=el.getBoundingClientRect().top;
+      if(Math.abs(top-64)>8) window.scrollTo(0, window.scrollY + top - 64);
+    }, 450);
+  });
+  const bar=$('#scrollbar'); let ticking=false;
+  const upd=()=>{ticking=false;const h=document.documentElement;
+    bar.style.width=(h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight)*100)+'%'};
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(upd)}},{passive:true}); upd();
+  const links=[...document.querySelectorAll('nav.toc a')];
+  const setActive=id=>links.forEach(a=>{
+    const on=a.dataset.sec===id;
+    a.classList.toggle('on',on);
+    on?a.setAttribute('aria-current','true'):a.removeAttribute('aria-current');
+  });
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id)});
+  },{rootMargin:'-25% 0px -65% 0px'});
+  links.map(a=>document.getElementById(a.dataset.sec)).filter(Boolean).forEach(s=>io.observe(s));
+}
+
 /* ---- init ---- */
 $('#stN').textContent = SURVEYS.length;
 $('#heroN').textContent = SURVEYS.length;
@@ -412,5 +458,5 @@ if(_next){
   $('#stNextD').textContent = _next.d.replace(/（.*?）/,'');
   $('#stNextT').textContent = '下一站 · '+_next.t.replace(/（.*?）/,'');
 }
-buildChips(); buildHead(); renderRows(); buildTimeline(); buildGuide(); buildSources(); buildRuler(); initDrawer();
+buildChips(); buildHead(); renderRows(); buildTimeline(); buildGuide(); buildSources(); buildRuler(); initDrawer(); initHeader();
 $('#chartImg').innerHTML=chartImaging(); $('#chartSpec').innerHTML=chartSpec();
