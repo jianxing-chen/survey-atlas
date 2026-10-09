@@ -16,7 +16,7 @@
    渲染逻辑
    ===================================================================== */
 const $ = s => document.querySelector(s);
-const state = {reg:'all', q:'', sortKey:null, sortAsc:true};
+const state = {reg:'all', q:'', sortKey:null, sortAsc:true, pins:[]};
 
 /* ---- 表格 ---- */
 const COLS = [
@@ -54,7 +54,7 @@ function buildHead(){
     th.addEventListener('click',()=>{
       const k = th.dataset.k;
       if(state.sortKey===k){state.sortAsc=!state.sortAsc}else{state.sortKey=k;state.sortAsc=true}
-      buildHead(); renderRows();
+      buildHead(); renderRows(); syncURL();
     });
   });
 }
@@ -64,7 +64,7 @@ function rowHTML(s){
   const st = statusMap[s.status];
   const first = s.links[0];
   return `<tr data-id="${s.id}">
-    <td><span class="sname">${esc(s.name)}</span><span class="sdr">${esc(s.dr)}</span></td>
+    <td><button class="pinbtn${state.pins.includes(s.id)?' on':''}" data-pin="${s.id}" aria-label="钉选 ${esc(s.name)} 参与对比" title="钉选对比">${state.pins.includes(s.id)?'◉':'○'}</button><span class="sname">${esc(s.name)}</span><span class="sdr">${esc(s.dr)}</span></td>
     <td>${reg}</td>
     <td class="dimtxt">${esc(s.facility)}</td>
     <td class="mono">${esc(s.drDate)}</td>
@@ -118,7 +118,7 @@ function filtered(){
 function renderRows(){
   const list = filtered();
   $('#tbody').innerHTML = list.map(rowHTML).join('');
-  $('#countRow').textContent = `显示 ${list.length} / ${SURVEYS.length} 个巡天 · 点击行查看数据档案（← → 切换，Esc 关闭）`;
+  $('#countRow').textContent = `显示 ${list.length} / ${SURVEYS.length} 个巡天 · 点击行查看档案（← → 切换，Esc 关闭）· ○ 钉选至多 4 项并排对比`;
 }
 
 /* ---- 类型筛选 chips ---- */
@@ -130,13 +130,13 @@ function buildChips(){
     const b=document.createElement('button');
     b.className='chip'+(state.reg===key?' on':'');
     b.innerHTML=(color?`<span class="dot" style="background:${color}"></span>`:'')+label+(count?` <span class="cnt">${count}</span>`:'');
-    b.onclick=()=>{state.reg=key;buildChips();renderRows();syncIndex()};
+    b.onclick=()=>{state.reg=key;buildChips();renderRows();syncIndex();skySync();syncURL()};
     bar.insertBefore(b,$('.searchbox'));
   };
   bar.querySelectorAll('.chip').forEach(e=>e.remove());
   mk('all','全部',null,SURVEYS.length);
   [...SPECTRUM_ORDER,...CROSSCUT_ORDER].forEach(k=>mk(k,REG[k].label,REG[k].hex,counts[k]||0));
-  $('#q').addEventListener('input',e=>{state.q=e.target.value.trim();renderRows()});
+  $('#q').addEventListener('input',e=>{state.q=e.target.value.trim();renderRows();syncURL()});
 }
 
 /* ---- 档案卡 ---- */
@@ -211,6 +211,8 @@ function closeDrawer(){
 function initDrawer(){
   $('#tbody').addEventListener('click',e=>{
     if(e.target.closest('a'))return;
+    const pin=e.target.closest('.pinbtn');
+    if(pin){togglePin(pin.dataset.pin);return}
     const tr=e.target.closest('tr[data-id]'); if(tr)openDrawer(tr.dataset.id);
   });
   $('#overlay').onclick=closeDrawer;
@@ -254,6 +256,189 @@ function buildGuide(){
 function buildSources(){
   $('#srcList').innerHTML = SOURCES.map(s=>`<li><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a></li>`).join('');
 }
+
+/* ---- 天图（Mollweide 近似足迹，数据来自 footprints.js） ---- */
+function buildSky(){
+  const grat=SKY_GRAT.map(p=>p?`<path class="sk-g" d="${p}"/>`:'').join('');
+  const mw=SKY_MILKY.map(p=>`<path class="sk-mw" d="${p}"/>`).join('');
+  const byId=Object.fromEntries(SURVEYS.map(s=>[s.id,s]));
+  const fps=[];
+  for(const [id,o] of Object.entries(SKY_FP)){
+    const s=byId[id]; if(!s) continue;
+    const c=REG[s.reg[0]].hex;
+    for(const p of o.paths) fps.push(`<path class="sk-fp ${o.style}" fill="${c}" d="${p}" data-id="${id}"><title>${esc(s.name)}</title></path>`);
+    for(const d of o.dots) fps.push(`<path class="sk-dot" fill="${c}" d="M${d[0]} ${d[1]-4.5} L${d[0]+4.5} ${d[1]} L${d[0]} ${d[1]+4.5} L${d[0]-4.5} ${d[1]} Z" data-id="${id}"><title>${esc(s.name)}</title></path>`);
+  }
+  $('#skyMap').innerHTML=`
+  <svg viewBox="0 0 720 360" role="img" aria-label="巡天足迹天图（近似示意）">
+    <defs><clipPath id="skyClip"><ellipse cx="${SKY_ELLIPSE.cx}" cy="${SKY_ELLIPSE.cy}" rx="${SKY_ELLIPSE.rx}" ry="${SKY_ELLIPSE.ry}"/></clipPath></defs>
+    <ellipse class="sk-mw-bg" cx="${SKY_ELLIPSE.cx}" cy="${SKY_ELLIPSE.cy}" rx="${SKY_ELLIPSE.rx}" ry="${SKY_ELLIPSE.ry}"/>
+    <g clip-path="url(#skyClip)">${mw}${grat}</g>
+    <ellipse class="sk-bound" cx="${SKY_ELLIPSE.cx}" cy="${SKY_ELLIPSE.cy}" rx="${SKY_ELLIPSE.rx}" ry="${SKY_ELLIPSE.ry}"/>
+    <g clip-path="url(#skyClip)" id="skyFPs">${fps.join('')}</g>
+  </svg>`;
+  /* 全天巡天 chip 行 */
+  $('#skyFull').innerHTML=SKY_FULL.map(id=>{const s=byId[id];return s?`<button class="sfchip" data-id="${id}">${esc(s.name)}</button>`:''}).join('');
+  $('#skyFull').querySelectorAll('.sfchip').forEach(b=>b.onclick=()=>openDrawer(b.dataset.id));
+  /* tooltip + 点击开档案 */
+  const tip=$('#skyTip'), box=$('.skybox');
+  const show=(id,ev)=>{
+    const s=byId[id]; if(!s)return;
+    tip.innerHTML=`<b>${esc(s.name)}</b><span>${esc(s.area||'全天')}</span><i>点击查看档案 ↗</i>`;
+    tip.hidden=false;
+    const r=box.getBoundingClientRect();
+    tip.style.left=Math.min(r.width-160,Math.max(4,ev.clientX-r.left+14))+'px';
+    tip.style.top=(ev.clientY-r.top-44)+'px';
+  };
+  $('#skyFPs').addEventListener('mousemove',e=>{
+    const t=e.target.closest('[data-id]'); t?show(t.dataset.id,e):tip.hidden=true;
+  });
+  $('#skyFPs').addEventListener('mouseleave',()=>tip.hidden=true);
+  $('#skyFPs').addEventListener('click',e=>{
+    const t=e.target.closest('[data-id]'); if(t)openDrawer(t.dataset.id);
+  });
+  skySync();
+}
+function skySync(){
+  if(!document.getElementById('skyFPs'))return;
+  document.querySelectorAll('#skyFPs [data-id]').forEach(p=>{
+    const s=SURVEYS.find(x=>x.id===p.dataset.id);
+    p.classList.toggle('dim', state.reg!=='all'&&!s.reg.includes(state.reg));
+  });
+}
+
+/* ---- 巡天年表（1995→2033 甘特） ---- */
+function buildGantt(){
+  const Y0=1995,Y1=2033,NOW=2026.79;
+  const rows=SURVEYS.slice().sort((a,b)=>a.t0-b.t0||a.name.localeCompare(b.name,'zh'));
+  const RH=15.5,H=rows.length*RH+46,W=880,ML=104,MR=14;
+  const X=y=>ML+(Math.max(Y0,Math.min(Y1,y))-Y0)/(Y1-Y0)*(W-ML-MR);
+  let ticks='';
+  for(let y=Y0;y<=Y1;y+=5) ticks+=`<line class="gt-ax" x1="${X(y)}" y1="20" x2="${X(y)}" y2="${H-22}"/>
+    <text class="gt-yl" x="${X(y)}" y="${H-8}" text-anchor="middle">${y}</text>`;
+  const bars=rows.map((s,i)=>{
+    const c=REG[s.reg[0]].hex, cy=26+i*RH+7, st=s.status;
+    const t0=s.t0, end=s.t1??(st==='run'?NOW:(s.tp??NOW)), planned=s.tp;
+    let bar='';
+    const solidEnd=st==='run'?Math.min(NOW,end):end;
+    if(st==='done') bar=`<rect x="${X(t0)}" y="${cy-3.4}" width="${Math.max(1.5,X(solidEnd)-X(t0))}" height="6.8" rx="3" fill="${c}" opacity=".38"/>`;
+    if(st==='run') bar=`<rect x="${X(t0)}" y="${cy-3.4}" width="${Math.max(1.5,X(solidEnd)-X(t0))}" height="6.8" rx="3" fill="${c}" opacity=".85"/>`;
+    if(st==='next') bar=`<rect x="${X(t0)}" y="${cy-3.4}" width="${Math.max(1.5,X(planned??t0+2)-X(t0))}" height="6.8" rx="3" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="3 2.5" opacity=".8"/>`;
+    if(st==='run'&&planned) bar+=`<rect x="${X(NOW)}" y="${cy-3.4}" width="${Math.max(0,X(planned)-X(NOW))}" height="6.8" rx="3" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="3 2.5" opacity=".55"/>`;
+    const dy=yearOf(s);
+    const dr=(dy>=t0-1&&dy<=Y1)?`<path class="gt-dr" d="M${X(dy)} ${cy-4.5} L${X(dy)+3.6} ${cy} L${X(dy)} ${cy+4.5} L${X(dy)-3.6} ${cy} Z"/>`:'';
+    return `<g class="gt-row" data-id="${s.id}">
+      <rect class="gt-hit" x="0" y="${26+i*RH}" width="${W}" height="${RH}"/>
+      <text class="gt-lb" x="${ML-9}" y="${cy+3.2}" text-anchor="end">${esc(s.name.length>11?s.name.slice(0,10)+'…':s.name)}</text>
+      ${bar}${dr}</g>`;
+  }).join('');
+  $('#ganttWrap').innerHTML=`
+  <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="巡天年表 1995–2033">
+    ${ticks}
+    <line class="gt-now" x1="${X(NOW)}" y1="18" x2="${X(NOW)}" y2="${H-22}"/>
+    <text class="gt-nowlb" x="${X(NOW)}" y="12" text-anchor="middle">今天 · 2026-10</text>
+    ${bars}
+  </svg>
+  <p class="gt-note">色 = 波段类型（与频谱尺一致）；实线 = 已观测，虚线 = 规划；◆ = 主要数据发布（年份取自「最新发布」）。</p>`;
+  $('#ganttWrap').addEventListener('click',e=>{
+    const g=e.target.closest('.gt-row'); if(g)openDrawer(g.dataset.id);
+  });
+}
+
+/* ---- 获取手册 / 名词表 / 更新日志 ---- */
+function buildAccess(){
+  $('#accGrid').innerHTML=ARCHIVES.map(a=>`
+    <div class="acard">
+      <h4>${esc(a.name)}</h4>
+      ${a.hosts.length?`<div class="ac-hosts">${a.hosts.map(h=>`<button data-id="${h}">${esc((SURVEYS.find(x=>x.id===h)||{}).name||h)}</button>`).join('')}</div>`:''}
+      <p>${esc(a.how)}</p>
+      <dl class="ac-kv">
+        <dt>批量</dt><dd>${esc(a.batch)}</dd>
+        <dt>注册</dt><dd>${esc(a.auth)}</dd>
+      </dl>
+      <div class="ac-links">${a.links.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${esc(l[0])} ↗</a>`).join('')}</div>
+    </div>`).join('');
+  $('#accGrid').querySelectorAll('.ac-hosts button').forEach(b=>b.onclick=()=>openDrawer(b.dataset.id));
+}
+function buildGlossary(){
+  $('#glossList').innerHTML=GLOSSARY.map(g=>`
+    <div class="gl-item"><dt>${esc(g[0])}<i>${esc(g[1])}</i></dt><dd>${esc(g[2])}</dd></div>`).join('');
+}
+function buildChangelog(){
+  $('#chgList').innerHTML=CHANGES.map(c=>`
+    <div class="chg"><b>${esc(c.d)}</b><ul>${c.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`).join('');
+}
+
+/* ---- 对比模式（钉选 ≤4 项并排对照） ---- */
+function togglePin(id){
+  const i=state.pins.indexOf(id);
+  if(i>=0) state.pins.splice(i,1);
+  else { if(state.pins.length>=4) state.pins.shift(); state.pins.push(id); }
+  renderRows(); renderCmpBar(); syncURL();
+}
+function renderCmpBar(){
+  const bar=$('#cmpBar');
+  if(!state.pins.length){bar.hidden=true;return}
+  bar.hidden=false;
+  const chips=state.pins.map(id=>{const s=SURVEYS.find(x=>x.id===id);
+    return `<button class="cb-chip" data-rm="${id}">${esc(s.name)}<b>×</b></button>`}).join('');
+  bar.innerHTML=`<span class="cb-lab">钉选 ${state.pins.length}/4</span>${chips}
+    <button class="cb-go" id="cmpGo">并排对比 →</button>
+    <button class="cb-clr" id="cmpClr">清空</button>`;
+  bar.querySelectorAll('.cb-chip').forEach(b=>b.onclick=()=>togglePin(b.dataset.rm));
+  $('#cmpGo').onclick=openCompare;
+  $('#cmpClr').onclick=()=>{state.pins=[];renderRows();renderCmpBar();syncURL()};
+}
+function openCompare(){
+  const list=state.pins.map(id=>SURVEYS.find(x=>x.id===id));
+  const F=[
+    ['类型',s=>s.reg.map(r=>REG[r].label).join(' / ')],
+    ['设施',s=>s.facility],['最新发布',s=>`${s.dr}（${s.drDate}）`],
+    ['天区',s=>s.area],['波段',s=>s.bands],['深度',s=>s.depth],
+    ['光谱 R',s=>s.spec||'—'],['源数/规模',s=>s.nsrc],
+    ['状态',s=>statusMap[s.status][0]],
+    ['巡天计划',s=>(s.d.s||'').slice(0,150)+'…'],
+    ['怎么获取',s=>s.d.a||'—'],
+  ];
+  const head=`<tr><th></th>${list.map(s=>`<th>${esc(s.name)}</th>`).join('')}</tr>`;
+  const body=F.map(([k,f])=>`<tr><th>${k}</th>${list.map(s=>`<td>${esc(f(s))}</td>`).join('')}</tr>`).join('');
+  if(!dwCur)dwFocusBack=document.activeElement;
+  dwCur='__cmp__';
+  $('#drawer').innerHTML=`
+    <div class="dw-top">
+      <div class="dw-nav"><span>对比 ${list.length} 项</span></div>
+      <button class="dw-close" id="dwClose">✕ 关闭（Esc）</button>
+    </div>
+    <div class="cmp-tbl-box"><table class="cmp-tbl">${head}${body}</table></div>`;
+  $('#drawer').classList.add('open'); $('#overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  $('#dwClose').onclick=closeDrawer; $('#dwClose').focus();
+}
+
+/* ---- URL 状态持久化 ---- */
+function syncURL(){
+  try{
+    const u=new URL(location.href);
+    u.searchParams.delete('q');u.searchParams.delete('reg');u.searchParams.delete('sort');u.searchParams.delete('asc');u.searchParams.delete('pin');
+    if(state.q)u.searchParams.set('q',state.q);
+    if(state.reg&&state.reg!=='all')u.searchParams.set('reg',state.reg);
+    if(state.sortKey)u.searchParams.set('sort',state.sortKey);
+    if(state.sortKey&&!state.sortAsc)u.searchParams.set('asc','0');
+    if(state.pins.length)u.searchParams.set('pin',state.pins.join(','));
+    history.replaceState(null,'',u);
+  }catch(e){}
+}
+function applyURL(){
+  try{
+    const p=new URL(location.href).searchParams;
+    const q=p.get('q'); if(q){state.q=q;$('#q').value=q}
+    const reg=p.get('reg'); if(reg&&REG[reg])state.reg=reg;
+    const so=p.get('sort'); if(so&&COLS.some(c=>c.k===so)){state.sortKey=so;state.sortAsc=p.get('asc')!=='0'}
+    const pin=p.get('pin');
+    if(pin)state.pins=pin.split(',').filter(id=>SURVEYS.some(s=>s.id===id)).slice(0,4);
+  }catch(e){}
+}
+
 
 /* ---- 图表（纯 SVG）---- */
 function chartImaging(){
@@ -393,7 +578,7 @@ function buildRuler(){
   $('#rulerX').innerHTML = mkx('all','全部',null,SURVEYS.length)
     + CROSSCUT_ORDER.map(k=>mkx(k,REG[k].label,REG[k].hex,counts[k]||0)).join('');
   document.querySelectorAll('#rulerBands .rseg, #rulerX .xseg').forEach(b=>b.onclick=()=>{
-    state.reg=b.dataset.k; buildChips(); renderRows(); syncIndex();
+    state.reg=b.dataset.k; buildChips(); renderRows(); syncIndex(); skySync(); syncURL();
     document.getElementById('table').scrollIntoView();
   });
   syncIndex();
@@ -458,5 +643,7 @@ if(_next){
   $('#stNextD').textContent = _next.d.replace(/（.*?）/,'');
   $('#stNextT').textContent = '下一站 · '+_next.t.replace(/（.*?）/,'');
 }
-buildChips(); buildHead(); renderRows(); buildTimeline(); buildGuide(); buildSources(); buildRuler(); initDrawer(); initHeader();
+applyURL();
+buildChips(); buildHead(); renderRows(); renderCmpBar(); buildTimeline(); buildGuide(); buildSources(); buildRuler(); initDrawer(); initHeader();
+buildSky(); buildGantt(); buildAccess(); buildGlossary(); buildChangelog();
 $('#chartImg').innerHTML=chartImaging(); $('#chartSpec').innerHTML=chartSpec();

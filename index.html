@@ -40,10 +40,13 @@
       <span class="bt">Survey Atlas<i>巡天数据图集</i></span>
     </a>
     <nav class="toc" aria-label="页面章节">
+      <a href="#sky" data-sec="sky">天图</a>
       <a href="#table" data-sec="table">总表</a>
       <a href="#charts" data-sec="charts">全景图</a>
+      <a href="#generations" data-sec="generations">年表</a>
       <a href="#guide" data-sec="guide">选型指南</a>
       <a href="#timeline" data-sec="timeline">发布日历</a>
+      <a href="#access" data-sec="access">手册</a>
       <a href="#sources" data-sec="sources">来源</a>
     </nav>
     <div class="tools">
@@ -136,6 +139,17 @@
     <div class="update-badge"><i></i>关键时效已逐条核实：Gaia DR4 预计 2026-12 · DESI 公开版为 DR1 · Rubin DP2 已发布</div>
   </div>
 
+  <!-- ============ 天图 ============ -->
+  <section id="sky">
+    <div class="sec-head"><span class="tick"></span><span class="sec-en">The Sky</span><h2>天图 · 谁盖住了哪片天</h2></div>
+    <p class="sec-sub">59 个巡天的<b>近似足迹</b>（Mollweide 投影，赤道坐标，RA 以中央为 12ʰ）：色块按波段类型着色，虚线为规划中，十字为经典深场；与频谱导航尺联动筛选，hover 看名称、点击打开档案。足迹为示意（≈），精确边界以各巡天官方 footprint 文件为准。</p>
+    <div class="plate skybox">
+      <div id="skyMap"></div>
+      <div class="sky-tip" id="skyTip" hidden></div>
+    </div>
+    <div class="skyfull-row"><span class="sfr-cap">全天巡天（不画足迹，点击查看档案）</span><div id="skyFull" role="group" aria-label="全天巡天"></div></div>
+  </section>
+
   <!-- ============ 对比总表 ============ -->
   <section id="table">
     <div class="sec-head"><span class="tick"></span><span class="sec-en">The Catalogue</span><h2>对比总表</h2></div>
@@ -167,6 +181,13 @@
     </div>
   </section>
 
+  <!-- ============ 巡天年表 ============ -->
+  <section id="generations">
+    <div class="sec-head"><span class="tick"></span><span class="sec-en">The Generations</span><h2>巡天年表 · 谁在跑，谁接棒</h2></div>
+    <p class="sec-sub">每个巡天一条生命线：首光 → 收官（规划部分虚线延展），◆ 为主要数据发布，红线是今天。一眼看到三十年的代际接棒——2MASS→WISE、SDSS→DESI、ZTF→Rubin。点击任意行打开档案卡。</p>
+    <div class="plate ganttbox"><div id="ganttWrap"></div></div>
+  </section>
+
   <!-- ============ 选型指南 ============ -->
   <section id="guide">
     <div class="sec-head"><span class="tick"></span><span class="sec-en">Programmes</span><h2>选型指南</h2></div>
@@ -181,6 +202,17 @@
     <div class="tl-grid" id="tlGrid"></div>
   </section>
 
+  <!-- ============ 获取手册 ============ -->
+  <section id="access">
+    <div class="sec-head"><span class="tick"></span><span class="sec-en">Access Playbook</span><h2>获取手册 · 去哪下、怎么下</h2></div>
+    <p class="sec-sub">选定数据之后的第一站：13 个主要档案库的查询方式、批量下载与注册要求。卡片上的巡天名可点击直达档案。更多入口（巡天官网/发布页）见各档案卡内链接。</p>
+    <div class="accgrid" id="accGrid"></div>
+    <details class="gloss">
+      <summary>名词表 · Glossary<span>22 条 — 5σ、photo-z、BAO、cadence……</span></summary>
+      <dl id="glossList"></dl>
+    </details>
+  </section>
+
   <!-- ============ 来源 ============ -->
   <section id="sources">
     <div class="sec-head"><span class="tick"></span><span class="sec-en">Plate Notes</span><h2>来源与口径</h2></div>
@@ -190,6 +222,10 @@
       「光谱数」统计口径各巡天不同（独立目标 / 曝光次数），横向对比仅供量级参考。本页为人工整理，难免滞后，发布计划常变动——引用前请点击链接到官方页面复核。
     </div>
     <ul class="srclist" id="srcList"></ul>
+    <div class="changelog">
+      <h3>更新日志 · Changelog</h3>
+      <div id="chgList"></div>
+    </div>
   </section>
 
   <footer>
@@ -198,10 +234,12 @@
   </footer>
 </div>
 
+<div class="cmpbar" id="cmpBar" hidden></div>
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dwName"></aside>
 
 <script src="data.js"></script>
+<script src="footprints.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
